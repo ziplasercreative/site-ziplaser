@@ -530,7 +530,7 @@
     root.innerHTML = DESTAQUES.map((d,i)=>`
       <div class="bn-slide${i===0?" on":""}" role="group" aria-roledescription="slide" aria-label="${i+1} de ${DESTAQUES.length}: ${d.name}">
         <div class="bn-text">
-          <div class="bn-tag"><span class="eyebrow">${d.tag}</span><span class="bn-code">Cód. ${d.code}</span></div>
+          <div class="bn-tag"><span class="eyebrow">${d.tag}</span></div>
           <h2>${d.title}</h2>
           <p>${d.desc}</p>
           <ul class="bn-feats">${d.feats.map(f=>`<li>${f}</li>`).join("")}</ul>
