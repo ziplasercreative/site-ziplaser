@@ -67,8 +67,51 @@
   .menu-toggle{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer}
   .menu-toggle span{display:block;width:22px;height:2px;background:var(--black);margin:5px auto;transition:.3s}
 
+
+  /* ===== Banner carrossel ===== */
+  .banner{padding:28px 0 8px}
+  .bn{position:relative;background:#F4F4F5;border-radius:32px;overflow:hidden;height:clamp(500px,44vw,580px)}
+  .bn-slide{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.1fr;grid-template-rows:minmax(0,1fr);align-items:center;gap:24px;padding:0 0 0 64px;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility .7s}
+  .bn-slide.on{opacity:1;visibility:visible}
+  .bn-text{position:relative;z-index:2;max-width:470px}
+  .bn-tag{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+  .bn-tag .eyebrow{color:var(--black)}
+  .bn-code{font-family:var(--font-body);font-size:12px;font-weight:600;background:var(--black);color:var(--white);padding:5px 11px;border-radius:999px;letter-spacing:.04em}
+  .bn-text h2{font-size:clamp(32px,4.2vw,54px);margin-bottom:18px}
+  .bn-text h2 span{position:relative;white-space:nowrap}
+  .bn-text h2 span::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.17em;background:var(--orange);z-index:-1}
+  .bn-text p{color:var(--muted);font-size:17px;margin-bottom:22px}
+  .bn-feats{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+  .bn-feats li{font-size:13px;font-weight:500;background:var(--white);border-radius:999px;padding:7px 14px}
+  .bn-media{position:relative;height:100%;min-height:0;display:flex;align-items:center;justify-content:center;padding:36px 40px 70px 0}
+  .bn-media img{max-width:100%;max-height:100%;object-fit:contain;transform:translateX(30px) scale(.97);transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+  .bn-slide.on .bn-media img{transform:none}
+  .bn-media .beam{left:4%;right:10%}
+  .bn-slide:not(.on) .beam{animation:none;opacity:0}
+  .bn-ctrl{position:absolute;left:64px;bottom:34px;z-index:3;display:flex;align-items:center;gap:18px}
+  .bn-dots{display:flex;gap:8px}
+  .bn-dot{width:42px;height:4px;border-radius:4px;background:rgba(0,0,0,.14);border:0;cursor:pointer;padding:0;position:relative;overflow:hidden}
+  .bn-dot i{position:absolute;inset:0;background:var(--black);transform:scaleX(0);transform-origin:left}
+  .bn-dot.on i{animation:bnfill var(--bn-time,6s) linear forwards}
+  .bn.paused .bn-dot.on i{animation-play-state:paused}
+  .bn-dot.done i{transform:scaleX(1)}
+  @keyframes bnfill{to{transform:scaleX(1)}}
+  .bn-arrows{display:flex;gap:8px}
+  .bn-arrow{width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.18);background:var(--white);display:grid;place-items:center;cursor:pointer;transition:.2s}
+  .bn-arrow:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+  .bn-arrow svg{width:18px;height:18px}
+  .bn-arrow.prev svg{transform:rotate(180deg)}
+  @media (max-width:860px){
+    .bn{height:auto}
+    .bn-slide{position:relative;display:none;grid-template-columns:1fr;grid-template-rows:auto;padding:0;gap:0}
+    .bn-slide.on{display:grid}
+    .bn-media{order:-1;height:300px;padding:28px 20px 8px}
+    .bn-text{padding:12px 24px 100px;max-width:none}
+    .bn-ctrl{left:24px;bottom:28px}
+    .bn-arrows{display:none}
+  }
   /* Hero */
-  .hero{padding:72px 0 96px;position:relative;overflow:hidden}
+  .hero{padding:64px 0 96px;position:relative;overflow:hidden}
   .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
   .hero .eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:26px}
   .hero .eyebrow::before{content:"";width:34px;height:2px;background:var(--orange)}
@@ -239,6 +282,13 @@
 </header>
 
 <main>
+  <!-- BANNER CARROSSEL: produtos em destaque -->
+  <section class="banner" aria-label="Produtos em destaque">
+    <div class="wrap">
+      <div class="bn" id="banner" aria-roledescription="carrossel"></div>
+    </div>
+  </section>
+
   <!-- HERO -->
   <section class="hero">
     <div class="wrap hero-grid">
@@ -433,7 +483,8 @@
     { cat:"Copos e garrafas", name:"Caneca térmica com canudo", desc:"Caneca térmica de 600 ml com tampa e canudo. A gravação revela o inox e fica com brilho metálico.", photo:"assets/produtos/canecas.jpg" },
     { cat:"Copos e garrafas", name:"Copo térmico inox", desc:"Copo inox de parede dupla, 320 ml. Gravação fina e elegante, perfeita para presentes.", photo:"assets/produtos/copos.jpg" },
     { cat:"Copos e garrafas", name:"Garrafa térmica inox", desc:"Garrafa térmica de 950 ml, ideal para treino e para o dia a dia, com sua marca ou seu nome.", photo:"assets/produtos/garrafas.jpg" },
-    { cat:"Escritório", name:"Caneta metálica", desc:"Caneta de metal com gravação de alta precisão: nomes e logos com traço fino, perfeitos para brindes.", photo:"assets/produtos/canetas.jpg" },
+    { cat:"Escritório", name:"Caneta metálica", desc:"Caneta de metal em 11 cores, com gravação de alta precisão. Nomes e logos com traço fino, perfeitos para brindes.", photo:"assets/produtos/canetas.jpg" },
+    { cat:"Escritório", name:"Caneta ecológica", desc:"Caneta com corpo em papelão e gravação direto no material. Sustentável e com ótimo custo para brindes.", photo:"assets/produtos/caneta-ecologica.jpg" },
     { cat:"Escritório", name:"Kit escritório em bambu", desc:"Caderno, caneta e chaveiro de bambu numa caixa kraft. Um presente corporativo completo.", photo:"assets/produtos/kit-escritorio.jpg" },
     { cat:"Escritório", name:"Cartão de visita metálico", desc:"Cartão de visita em metal, com gravação a laser. Disponível em várias cores.", photo:"assets/produtos/cartao-metalico.jpg" },
     { cat:"Cozinha e churrasco", name:"Talheres de madeira", desc:"Garfos, facas e colheres de madeira com sua logo. Ideais para confeitarias, eventos e delivery.", photo:"assets/produtos/talheres.jpg" },
@@ -457,6 +508,68 @@
   };
 
   const waLink = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+
+  // ====== BANNER: produtos em destaque ======
+  // Para trocar os destaques, edite esta lista.
+  const DESTAQUES = [
+    { code:"05029", tag:"Destaque", title:"Garrafa térmica <span>950 ml</span>", name:"Garrafa térmica 950 ml preta",
+      desc:"Garrafa de inox preta com sua logo ou nome gravados a laser. A gravação revela o inox e não sai com o tempo.",
+      feats:["Inox","Cor preta","Gravação permanente"], img:"assets/banner/garrafa-950ml.jpg" },
+    { code:"ER143B", tag:"Destaque", title:"Caneta <span>metálica</span>", name:"Caneta metálica",
+      desc:"Caneta de metal com gravação de alta precisão: sua marca com traço fino e acabamento premium. Perfeita para brindes corporativos.",
+      feats:["11 cores","Acabamento premium","Ideal para brindes"], img:"assets/banner/caneta-metal-er143b.jpg" },
+    { code:"00007", tag:"Destaque", title:"Caneta <span>ecológica</span>", name:"Caneta ecológica",
+      desc:"Corpo em papelão com a gravação queimada direto no material. Uma opção sustentável para levar sua marca a mais pessoas.",
+      feats:["Sustentável","7 cores","Ótimo custo para brindes"], img:"assets/banner/caneta-ecologica-00007.jpg" }
+  ];
+  (function(){
+    const root=document.getElementById("banner"); if(!root) return;
+    const TIME=6000;
+    root.style.setProperty("--bn-time", TIME+"ms");
+    root.innerHTML = DESTAQUES.map((d,i)=>`
+      <div class="bn-slide${i===0?" on":""}" role="group" aria-roledescription="slide" aria-label="${i+1} de ${DESTAQUES.length}: ${d.name}">
+        <div class="bn-text">
+          <div class="bn-tag"><span class="eyebrow">${d.tag}</span><span class="bn-code">Cód. ${d.code}</span></div>
+          <h2>${d.title}</h2>
+          <p>${d.desc}</p>
+          <ul class="bn-feats">${d.feats.map(f=>`<li>${f}</li>`).join("")}</ul>
+          <a class="btn btn-orange" target="_blank" rel="noopener" href="${waLink(`Olá! Vim pelo site da ZIPLASER e tenho interesse na ${d.name} (cód. ${d.code}).`)}"><svg><use href="#i-wa"/></svg>Pedir pelo WhatsApp</a>
+        </div>
+        <div class="bn-media"><div class="beam"></div><img src="${d.img}" alt="${d.name} com gravação a laser da ZIPLASER"${i?' loading="lazy"':''}></div>
+      </div>`).join("") + `
+      <div class="bn-ctrl">
+        <div class="bn-dots">${DESTAQUES.map((d,i)=>`<button class="bn-dot${i===0?" on":""}" aria-label="Ver ${d.name}"><i></i></button>`).join("")}</div>
+        <div class="bn-arrows">
+          <button class="bn-arrow prev" aria-label="Anterior"><svg><use href="#i-arrow"/></svg></button>
+          <button class="bn-arrow next" aria-label="Próximo"><svg><use href="#i-arrow"/></svg></button>
+        </div>
+      </div>`;
+    const slides=[...root.querySelectorAll(".bn-slide")], dots=[...root.querySelectorAll(".bn-dot")];
+    let cur=0, timer=null, left=TIME, started=0, paused=false;
+    const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function go(n){
+      cur=(n+slides.length)%slides.length;
+      slides.forEach((s,i)=>s.classList.toggle("on",i===cur));
+      dots.forEach((d,i)=>{d.classList.remove("on","done"); void d.offsetWidth; if(i<cur) d.classList.add("done"); if(i===cur) d.classList.add("on");});
+      restart();
+    }
+    function restart(){ clearTimeout(timer); left=TIME; if(!paused && !reduce) run(); }
+    function run(){ started=Date.now(); timer=setTimeout(()=>go(cur+1), left); }
+    function pause(){ if(paused) return; paused=true; root.classList.add("paused"); clearTimeout(timer); left-=Date.now()-started; }
+    function resume(){ if(!paused) return; paused=false; root.classList.remove("paused"); if(!reduce) run(); }
+    dots.forEach((d,i)=>d.addEventListener("click",()=>go(i)));
+    root.querySelector(".bn-arrow.prev").addEventListener("click",()=>go(cur-1));
+    root.querySelector(".bn-arrow.next").addEventListener("click",()=>go(cur+1));
+    root.addEventListener("mouseenter",pause); root.addEventListener("mouseleave",resume);
+    root.addEventListener("focusin",pause); root.addEventListener("focusout",resume);
+    let x0=null;
+    root.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;},{passive:true});
+    root.addEventListener("touchend",e=>{ if(x0===null) return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45) go(cur+(dx<0?1:-1)); x0=null; });
+    document.addEventListener("visibilitychange",()=>document.hidden?pause():resume());
+    if(reduce) dots.forEach(d=>d.querySelector("i").style.animation="none");
+    restart();
+  })();
 
   // Produtos
   const grid = document.getElementById("products");
