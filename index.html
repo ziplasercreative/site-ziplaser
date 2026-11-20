@@ -87,8 +87,9 @@
 
   /* Ficha de gravação (destaques) */
   .ficha{background:var(--branco);border-radius:var(--r);box-shadow:0 1px 0 rgba(0,0,0,.08),0 18px 40px -28px rgba(0,0,0,.45)}
-  .abas{display:flex;border-bottom:1px solid var(--bancada)}
-  .aba{flex:1;min-width:0;background:none;border:0;padding:15px 12px 13px;font-size:14px;font-weight:600;font-stretch:100%;color:var(--texto-2);cursor:pointer;position:relative;text-align:left}
+  .abas{display:flex;border-bottom:1px solid var(--bancada);overflow-x:auto;scrollbar-width:none}
+  .abas::-webkit-scrollbar{display:none}
+  .aba{flex:1 0 auto;white-space:nowrap;background:none;border:0;padding:16px 18px 14px;font-size:14px;font-weight:600;font-stretch:100%;color:var(--texto-2);cursor:pointer;position:relative;text-align:left}
   .aba[aria-selected="true"]{color:var(--preto)}
   .aba i{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--preto);transform:scaleX(0);transform-origin:left}
   .aba[aria-selected="true"] i{animation:enche var(--tempo,6s) linear forwards}
@@ -226,7 +227,7 @@
     .mat h3{font-size:var(--t0)}.mat p{font-size:14px}
     .passos{grid-template-columns:1fr;gap:36px}
     .passo::after{display:none}
-    .abas .aba{font-size:13px;padding:13px 8px 11px}
+    .abas .aba{font-size:13.5px;padding:14px 8px 12px;flex:1 0 auto;text-align:center}
     .gal{padding:0;place-items:end center}
     .gal-caixa{grid-template-columns:minmax(0,1fr);width:100%;border-radius:10px 10px 0 0;max-height:94vh;overflow:auto}
     .gal-foto{max-height:none}
@@ -412,13 +413,13 @@
 
   // Destaques da bancada (para trocar, edite esta lista)
   const DESTAQUES = [
-    { aba:"Garrafa 950 ml", nome:"Garrafa térmica 950 ml preta", img:"assets/banner/garrafa-950ml.jpg",
+    { aba:"Garrafa", nome:"Garrafa térmica 950 ml preta", img:"assets/banner/garrafa-950ml.jpg",
       specs:[["Material","Inox com pintura preta"],["Gravação","Revela o inox, com brilho metálico"],["Cores","6 opções no catálogo"]] },
-    { aba:"Copo PET 360 ml", nome:"Copo PET 360 ml", img:"assets/banner/copo-pet-360.jpg",
+    { aba:"Copo PET", nome:"Copo PET 360 ml", img:"assets/banner/copo-pet-360.jpg",
       specs:[["Material","PET transparente"],["Gravação","Branca e fosca, sem tinta"],["Ideal para","Festas, eventos e bares"]] },
-    { aba:"Caneta metálica", nome:"Caneta metálica", img:"assets/banner/caneta-metal-er143b.jpg",
+    { aba:"Caneta metal", nome:"Caneta metálica", img:"assets/banner/caneta-metal-er143b.jpg",
       specs:[["Material","Metal"],["Gravação","Traço claro e fino"],["Cores","11 opções"]] },
-    { aba:"Caneta ecológica", nome:"Caneta ecológica", img:"assets/banner/caneta-ecologica-00007.jpg",
+    { aba:"Caneta eco", nome:"Caneta ecológica", img:"assets/banner/caneta-ecologica-00007.jpg",
       specs:[["Material","Papelão"],["Gravação","Tom tostado, sem tinta"],["Cores","7 opções"]] }
   ];
 
@@ -480,6 +481,7 @@
     const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
     function mostra(n, auto){
       atual = (n + DESTAQUES.length) % DESTAQUES.length; const d = DESTAQUES[atual];
+      const ativa = abas.children[atual]; if(ativa && abas.scrollWidth > abas.clientWidth + 2) abas.scrollTo({left: ativa.offsetLeft - 16, behavior: auto ? "smooth" : "auto"});
       abas.querySelectorAll(".aba").forEach((b,i)=>{ b.setAttribute("aria-selected", i===atual); const t=b.querySelector("i"); t.style.animation="none"; void t.offsetWidth; t.style.animation=""; });
       img.classList.add("troca");
       setTimeout(()=>{ img.src = d.img; img.alt = `${d.nome} com gravação a laser ZIPLASER`; img.classList.remove("troca"); }, auto ? 300 : 0);
