@@ -391,7 +391,7 @@
           <span class="eyebrow">Portfólio</span>
           <h2>Nossos produtos</h2>
         </div>
-        <p>Mais de 35 modelos em várias cores. Clique na foto para ver a galeria e peça pelo WhatsApp.</p>
+        <p>38 modelos em várias cores. Clique na foto para ver a galeria e peça pelo WhatsApp.</p>
       </div>
       <div class="filters reveal" id="filters"></div>
       <div class="products" id="products"></div>
@@ -543,6 +543,7 @@
   const CATALOG = [
     {"id": "caneca-canudo-600", "group": "Canecas", "name": "Caneca térmica com canudo 600 ml", "desc": "Caneca térmica com tampa e canudo de inox, em 6 cores. A gravação revela o inox e fica com brilho metálico.", "n": 6},
     {"id": "caneca-350", "group": "Canecas", "name": "Caneca térmica 350 ml", "desc": "Caneca térmica de inox com tampa, ótima para café no escritório. Gravação fina e elegante.", "n": 3},
+    {"id": "copo-pet-360", "group": "Copos", "name": "Copo PET 360 ml", "desc": "Copo de PET transparente e resistente, ideal para festas, eventos e bares. A gravação fica branca e fosca, sem tinta.", "n": 3},
     {"id": "copo-320", "group": "Copos", "name": "Copo térmico inox 320 ml", "desc": "Copo inox de parede dupla com tampa. Gravação delicada, perfeita para presentes.", "n": 1},
     {"id": "copo-300", "group": "Copos", "name": "Copo térmico 300 ml", "desc": "Copo térmico compacto com tampa, mantém a bebida gelada por mais tempo.", "n": 1},
     {"id": "copo-abridor-500", "group": "Copos", "name": "Copo térmico 500 ml com abridor", "desc": "Copo térmico com tampa e abridor de garrafas embutido. Disponível em várias cores.", "n": 4},
@@ -598,6 +599,9 @@
     { code:"05029", tag:"Destaque", title:"Garrafa térmica <span>950 ml</span>", name:"Garrafa térmica 950 ml preta",
       desc:"Garrafa de inox preta com sua logo ou nome gravados a laser. A gravação revela o inox e não sai com o tempo.",
       feats:["Inox","Cor preta","Gravação permanente"], img:"assets/banner/garrafa-950ml.jpg" },
+    { code:"355ML", tag:"Destaque", title:"Copo <span>PET 360 ml</span>", name:"Copo PET 360 ml",
+      desc:"Copo de PET transparente com gravação branca e fosca, sem tinta. Ideal para festas, eventos e bares.",
+      feats:["PET transparente","Gravação fosca","Para eventos"], img:"assets/banner/copo-pet-360.jpg" },
     { code:"ER143B", tag:"Destaque", title:"Caneta <span>metálica</span>", name:"Caneta metálica",
       desc:"Caneta de metal com gravação de alta precisão: sua marca com traço fino e acabamento premium. Perfeita para brindes corporativos.",
       feats:["11 cores","Acabamento premium","Ideal para brindes"], img:"assets/banner/caneta-metal-er143b.jpg" },
@@ -616,7 +620,7 @@
           <h2>${d.title}</h2>
           <p>${d.desc}</p>
           <ul class="bn-feats">${d.feats.map(f=>`<li>${f}</li>`).join("")}</ul>
-          <a class="btn btn-orange" target="_blank" rel="noopener" href="${waLink(`Olá! Vim pelo site da ZIPLASER e tenho interesse na ${d.name} (cód. ${d.code}).`)}"><svg><use href="#i-wa"/></svg>Pedir pelo WhatsApp</a>
+          <a class="btn btn-orange" target="_blank" rel="noopener" href="${waLink(`Olá! Vim pelo site da ZIPLASER e tenho interesse em: ${d.name} (cód. ${d.code}).`)}"><svg><use href="#i-wa"/></svg>Pedir pelo WhatsApp</a>
         </div>
         <div class="bn-media"><div class="beam"></div><img src="${d.img}" alt="${d.name} com gravação a laser da ZIPLASER"${i?' loading="lazy"':''}></div>
       </div>`).join("") + `
