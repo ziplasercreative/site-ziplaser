@@ -127,6 +127,21 @@
   .item.outro h3{font-family:var(--f-titulo);font-size:var(--t1);margin:0 0 8px}
   .item.outro p{font-size:15px;color:var(--texto-2);margin-bottom:14px}
 
+
+  /* Aviso: cor da gravação */
+  .aviso{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;background:var(--branco);border:1px solid var(--preto);border-left:6px solid var(--laranja);border-radius:var(--r);padding:22px 26px}
+  .aviso svg{width:30px;height:30px;flex:none;margin-top:2px}
+  .aviso strong{display:block;font-family:var(--f-titulo);font-weight:700;font-size:var(--t1);line-height:1.2;margin-bottom:6px}
+  .aviso p{color:var(--texto-2);max-width:68ch}
+  .aviso p b{color:var(--preto);font-weight:600}
+  .aviso .link{display:inline-block;margin-top:8px}
+  .aviso.grande{padding:30px 34px;margin-bottom:44px}
+  .aviso.grande strong{font-size:clamp(var(--t1),2.4vw,var(--t2))}
+  .aviso.grande p{font-size:17px}
+  #catalogo .aviso{margin-bottom:36px}
+  .gal-aviso{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;background:var(--inox);border-left:4px solid var(--laranja);padding:10px 12px;border-radius:var(--r)}
+  .gal-aviso svg{width:18px;height:18px;flex:none;margin-top:1px}
+  @media (max-width:760px){.aviso,.aviso.grande{grid-template-columns:1fr;gap:10px;padding:20px}}
   /* Materiais */
   .materiais{background:var(--bancada)}
   .mat-grade{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 22px}
@@ -229,6 +244,7 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z"/></symbol>
   <symbol id="i-seta" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-aviso" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v6"/><circle cx="12" cy="16.6" r=".4" fill="currentColor"/></g></symbol>
 </svg>
 
 <header class="topo">
@@ -280,6 +296,14 @@
         <h2 id="t-catalogo">Catálogo</h2>
         <p>38 modelos em várias cores. Toque na foto para ver todas as opções.</p>
       </div>
+      <aside class="aviso" aria-label="Aviso importante sobre a cor da gravação">
+        <svg aria-hidden="true"><use href="#i-aviso"/></svg>
+        <div>
+          <strong>Importante: não é possível escolher a cor da gravação</strong>
+          <p>Nossa gravação é feita a laser, <b>sem tinta</b>. A cor que aparece é o resultado da reação do laser com o próprio material da peça, por isso ela muda de um produto para outro.</p>
+          <a class="link" href="#materiais">Ver como a gravação fica em cada material</a>
+        </div>
+      </aside>
       <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tipo de produto"></div>
       <div class="grade" id="grade"></div>
     </div>
@@ -289,8 +313,15 @@
     <div class="wrap">
       <div class="cabeca">
         <h2 id="t-mat">Como a gravação fica em cada material</h2>
-        <p>Não usamos tinta. A cor da gravação vem da reação do laser com o próprio material.</p>
+        <p>Cada material reage ao laser de um jeito. Veja o resultado real em cada um.</p>
       </div>
+      <aside class="aviso grande" aria-label="Por que não é possível escolher a cor">
+        <svg aria-hidden="true"><use href="#i-aviso"/></svg>
+        <div>
+          <strong>A cor da gravação é definida pelo material, não por nós</strong>
+          <p>O laser não aplica tinta: ele marca a superfície da peça. Em uma caneca preta, por exemplo, ele remove a pintura e revela o inox prateado. No bambu, ele queima e escurece a madeira. Por isso <b>não trabalhamos com escolha de cor na gravação</b>, e o resultado segue o que você vê nas fotos abaixo. Ficou com dúvida sobre como vai ficar na sua peça? Pergunte no WhatsApp antes de fechar o pedido.</p>
+        </div>
+      </aside>
       <div class="mat-grade">
         <figure class="mat"><img src="assets/materiais/inox-pintado.jpg" alt="Logo gravada em caneca preta, com o inox aparecendo" loading="lazy" width="640" height="640"><h3>Inox pintado</h3><p>O laser remove a pintura e revela o metal, com brilho prateado.</p></figure>
         <figure class="mat"><img src="assets/materiais/aluminio.jpg" alt="Logo gravada em caneta metálica azul" loading="lazy" width="640" height="640"><h3>Canetas e chaveiros de metal</h3><p>Traço claro e fino, que contrasta com a cor da peça.</p></figure>
@@ -367,6 +398,7 @@
       <h3 id="gal-titulo"></h3>
       <p class="desc"></p>
       <div class="gal-mini"></div>
+      <p class="gal-aviso"><svg aria-hidden="true"><use href="#i-aviso"/></svg><span>A cor da gravação não pode ser escolhida: ela é a reação do laser com o material da peça.</span></p>
       <a class="btn btn-laser gal-wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir este produto</a>
       <small>Fotos ilustrativas com a logo ZIPLASER. Gravamos a sua logo, nome ou arte.</small>
     </div>
