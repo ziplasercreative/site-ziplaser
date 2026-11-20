@@ -4,542 +4,392 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZIPLASER | Gravação a laser UV</title>
-<meta name="description" content="ZIPLASER: gravação a laser UV de alta precisão em copos, canecas, canetas, colheres de madeira, raquetes de frescobol e mais.">
+<meta name="description" content="Gravação a laser UV de alta precisão em copos, canecas, garrafas, canetas, chaveiros, tábuas e muito mais. Peça pelo WhatsApp.">
 <link rel="icon" type="image/png" href="assets/simbolo-dark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
+  /* ===== Tokens =====
+     Cores do guia da marca, cada uma com uma função:
+     preto = texto, laranja = laser e ação, cinza = bancada, inox = fundo das fotos. */
   :root{
-    --black:#000000;
-    --orange:#F7AC3B;
-    --gray:#E6E7E8;
-    --white:#FFFFFF;
-    --ink:#1A1A1A;
-    --muted:#5C5C5C;
-    --line:#D4D5D6;
-    /* Frizon (títulos) e Kento (detalhes) são as fontes da marca.
-       Enquanto os arquivos não forem incorporados, usamos substitutas próximas. */
-    --font-display:"Frizon","Unbounded",system-ui,sans-serif;
-    --font-detail:"Kento","Montserrat",system-ui,sans-serif;
-    --font-body:"Montserrat",system-ui,-apple-system,sans-serif;
-    --radius:18px;
-    --wrap:1180px;
+    --preto:#000000;
+    --laranja:#F7AC3B;
+    --bancada:#E6E7E8;
+    --inox:#F4F4F5;
+    --branco:#FFFFFF;
+    --texto-2:#4A4A4A;
+    --linha:#CFD0D2;
+    /* Frizon e Kento são as fontes da marca; Unbounded e Archivo largo são as substitutas na web */
+    --f-titulo:"Frizon","Unbounded",system-ui,sans-serif;
+    --f-texto:"Kento","Archivo",system-ui,sans-serif;
+    /* escala tipográfica 4:3 */
+    --t-1:13px; --t0:16px; --t1:21px; --t2:28px; --t3:38px; --t4:50px; --t5:67px;
+    --r:4px;
+    --wrap:1200px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--font-body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
-  img,svg{display:block}
-  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
-  .eyebrow{font-family:var(--font-detail);font-weight:400;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--muted)}
-  h1,h2,h3{font-family:var(--font-display);font-weight:800;line-height:1.05;letter-spacing:-.01em;color:var(--black)}
-  h2{font-size:clamp(28px,4vw,44px)}
-  .section{padding:110px 0}
-  .section-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:56px;flex-wrap:wrap}
-  .section-head p{max-width:420px;color:var(--muted)}
-  .section-head .eyebrow{margin-bottom:14px;display:block}
+  body{font-family:var(--f-texto);font-stretch:112%;font-size:var(--t0);line-height:1.6;color:var(--preto);background:var(--branco);-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img,svg{display:block;max-width:100%}
+  button{font:inherit;color:inherit}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+  h1,h2,h3{font-family:var(--f-titulo);font-weight:800;line-height:1.04;letter-spacing:-.015em}
+  h2{font-size:clamp(var(--t2),4vw,var(--t4))}
+  p{max-width:62ch}
+  :focus-visible{outline:2px solid var(--preto);outline-offset:3px}
+  .escuro :focus-visible{outline-color:var(--laranja)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-  /* Botões */
-  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-body);font-weight:600;font-size:15px;padding:15px 26px;border-radius:999px;transition:transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;cursor:pointer;border:0}
-  .btn svg{width:18px;height:18px;flex:none}
-  .btn-orange{background:var(--orange);color:var(--black)}
-  .btn-orange:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(247,172,59,.9)}
-  .btn-black{background:var(--black);color:var(--white)}
-  .btn-black:hover{transform:translateY(-2px)}
-  .btn-ghost{border:1px solid var(--black);color:var(--black);background:transparent}
-  .btn-ghost:hover{background:var(--black);color:var(--white)}
+  /* ===== Botões ===== */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:var(--t0);font-stretch:105%;padding:15px 22px;border-radius:var(--r);border:0;cursor:pointer;text-decoration:none;transition:background .2s,color .2s}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn-laser{background:var(--laranja);color:var(--preto)}
+  .btn-laser:hover{background:#000;color:var(--laranja)}
+  .btn-preto{background:var(--preto);color:var(--branco)}
+  .btn-preto:hover{background:#2a2a2a}
+  .link{font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+  .link:hover{text-decoration-color:var(--laranja)}
 
-  /* Header */
-  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
-  header.scrolled{border-bottom-color:var(--gray)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
-  .logo{font-family:var(--font-display);font-weight:800;font-size:22px;letter-spacing:.02em;display:flex;align-items:center;gap:2px;color:var(--black)}
-  .logo img{height:44px;width:auto}
-  .logo-foot img{height:30px}
-  .about-logo{width:52%;height:auto;position:relative;z-index:1}
-  .logo .dot{width:8px;height:8px;background:var(--orange);border-radius:50%;margin-left:4px;transform:translateY(5px)}
-  .nav-links{display:flex;gap:36px;font-size:14px;font-weight:500}
-  .nav-links a{position:relative;padding:4px 0}
-  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--orange);transition:width .25s}
-  .nav-links a:hover::after{width:100%}
-  .nav .btn{padding:11px 20px;font-size:14px}
-  .menu-toggle{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer}
-  .menu-toggle span{display:block;width:22px;height:2px;background:var(--black);margin:5px auto;transition:.3s}
+  /* ===== Cabeçalho ===== */
+  .topo{position:sticky;top:0;z-index:50;background:var(--branco);border-bottom:1px solid var(--bancada)}
+  .topo .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:24px}
+  .marca img{height:42px;width:auto}
+  .nav{display:flex;gap:32px;font-weight:500}
+  .nav a{text-decoration:none}
+  .nav a:hover{text-decoration:underline;text-underline-offset:6px}
+  .topo .btn{padding:11px 16px;font-size:15px}
+  .menu{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
+  .menu span{display:block;width:22px;height:2px;background:var(--preto);margin:5px auto}
 
+  /* ===== Bancada (topo) ===== */
+  .bancada{background-color:var(--bancada);
+    background-image:linear-gradient(rgba(0,0,0,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.07) 1px,transparent 1px),
+      linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px);
+    background-size:40px 40px,40px 40px,8px 8px,8px 8px;position:relative}
+  .regua{height:18px;background:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.45) 0 1px,transparent 1px 40px),
+      repeating-linear-gradient(90deg,rgba(0,0,0,.25) 0 1px,transparent 1px 8px);
+    background-size:100% 18px,100% 8px;background-repeat:no-repeat;border-bottom:1px solid rgba(0,0,0,.15)}
+  .bancada-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center;padding-top:64px;padding-bottom:80px}
+  .gravacao{position:relative;margin-bottom:28px}
+  .gravacao h1{font-size:clamp(40px,5.6vw,var(--t5));line-height:1.02;animation:raster 1.9s steps(30,end) .35s both}
+  .laser{position:absolute;left:-14px;right:-14px;height:2px;background:var(--laranja);top:0;opacity:0;
+    box-shadow:0 0 10px 2px rgba(247,172,59,.9),0 0 34px 8px rgba(247,172,59,.35);animation:varre 1.9s linear .35s both}
+  .laser::before{content:"";position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 12px 4px var(--laranja);animation:cabeca .19s linear .35s 10 alternate both}
+  @keyframes raster{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+  @keyframes varre{0%{top:0;opacity:1}97%{top:100%;opacity:1}100%{top:100%;opacity:0}}
+  @keyframes cabeca{from{left:0}to{left:calc(100% - 10px)}}
+  .bancada .lead{font-size:var(--t1);line-height:1.5;color:var(--texto-2);margin-bottom:34px;max-width:34ch}
+  .acoes{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 
-  /* ===== Banner carrossel ===== */
-  .banner{padding:28px 0 8px}
-  .bn{position:relative;background:#F4F4F5;border-radius:32px;overflow:hidden;height:clamp(500px,44vw,580px)}
-  .bn-slide{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.1fr;grid-template-rows:minmax(0,1fr);align-items:center;gap:24px;padding:0 0 0 64px;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility .7s}
-  .bn-slide.on{opacity:1;visibility:visible}
-  .bn-text{position:relative;z-index:2;max-width:470px}
-  .bn-tag{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
-  .bn-tag .eyebrow{color:var(--black)}
-  .bn-code{font-family:var(--font-body);font-size:12px;font-weight:600;background:var(--black);color:var(--white);padding:5px 11px;border-radius:999px;letter-spacing:.04em}
-  .bn-text h2{font-size:clamp(32px,4.2vw,54px);margin-bottom:18px}
-  .bn-text h2 span{position:relative;white-space:nowrap}
-  .bn-text h2 span::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.17em;background:var(--orange);z-index:-1}
-  .bn-text p{color:var(--muted);font-size:17px;margin-bottom:22px}
-  .bn-feats{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
-  .bn-feats li{font-size:13px;font-weight:500;background:var(--white);border-radius:999px;padding:7px 14px}
-  .bn-media{position:relative;height:100%;min-height:0;display:flex;align-items:center;justify-content:center;padding:36px 40px 70px 0}
-  .bn-media img{max-width:100%;max-height:100%;object-fit:contain;transform:translateX(30px) scale(.97);transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
-  .bn-slide.on .bn-media img{transform:none}
-  .bn-media .beam{left:4%;right:10%}
-  .bn-slide:not(.on) .beam{animation:none;opacity:0}
-  .bn-ctrl{position:absolute;left:64px;bottom:34px;z-index:3;display:flex;align-items:center;gap:18px}
-  .bn-dots{display:flex;gap:8px}
-  .bn-dot{width:42px;height:4px;border-radius:4px;background:rgba(0,0,0,.14);border:0;cursor:pointer;padding:0;position:relative;overflow:hidden}
-  .bn-dot i{position:absolute;inset:0;background:var(--black);transform:scaleX(0);transform-origin:left}
-  .bn-dot.on i{animation:bnfill var(--bn-time,6s) linear forwards}
-  .bn.paused .bn-dot.on i{animation-play-state:paused}
-  .bn-dot.done i{transform:scaleX(1)}
-  @keyframes bnfill{to{transform:scaleX(1)}}
-  .bn-arrows{display:flex;gap:8px}
-  .bn-arrow{width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.18);background:var(--white);display:grid;place-items:center;cursor:pointer;transition:.2s}
-  .bn-arrow:hover{background:var(--black);color:var(--white);border-color:var(--black)}
-  .bn-arrow svg{width:18px;height:18px}
-  .bn-arrow.prev svg{transform:rotate(180deg)}
-  @media (max-width:860px){
-    .bn{height:auto}
-    .bn-slide{position:relative;display:none;grid-template-columns:1fr;grid-template-rows:auto;padding:0;gap:0}
-    .bn-slide.on{display:grid}
-    .bn-media{order:-1;height:300px;padding:28px 20px 8px}
-    .bn-text{padding:12px 24px 100px;max-width:none}
-    .bn-ctrl{left:24px;bottom:28px}
-    .bn-arrows{display:none}
-  }
-  /* Hero */
-  .hero{padding:64px 0 96px;position:relative;overflow:hidden}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-  .hero .eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:26px}
-  .hero .eyebrow::before{content:"";width:34px;height:2px;background:var(--orange)}
-  .hero h1{font-size:clamp(40px,6.2vw,76px);margin-bottom:26px}
-  .hero h1 em{font-style:normal;position:relative;white-space:nowrap}
-  .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.18em;background:var(--orange);z-index:-1}
-  .hero p.lead{font-size:18px;color:var(--muted);max-width:480px;margin-bottom:38px}
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
-  .hero-stats{display:flex;gap:40px;margin-top:54px;padding-top:30px;border-top:1px solid var(--gray)}
-  .hero-stats strong{display:block;font-family:var(--font-display);font-size:22px;color:var(--black)}
-  .hero-stats span{font-size:13px;color:var(--muted)}
+  /* Ficha de gravação (destaques) */
+  .ficha{background:var(--branco);border-radius:var(--r);box-shadow:0 1px 0 rgba(0,0,0,.08),0 18px 40px -28px rgba(0,0,0,.45)}
+  .abas{display:flex;border-bottom:1px solid var(--bancada)}
+  .aba{flex:1;min-width:0;background:none;border:0;padding:15px 12px 13px;font-size:14px;font-weight:600;font-stretch:100%;color:var(--texto-2);cursor:pointer;position:relative;text-align:left}
+  .aba[aria-selected="true"]{color:var(--preto)}
+  .aba i{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--preto);transform:scaleX(0);transform-origin:left}
+  .aba[aria-selected="true"] i{animation:enche var(--tempo,6s) linear forwards}
+  .ficha.pausada .aba i{animation-play-state:paused}
+  @keyframes enche{to{transform:scaleX(1)}}
+  .ficha-foto{background:var(--inox);aspect-ratio:4/3.1;position:relative;overflow:hidden}
+  .ficha-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:18px;transition:opacity .35s}
+  .ficha-foto img.troca{opacity:0}
+  .ficha-corpo{padding:22px 24px 24px}
+  .ficha-corpo h3{font-size:var(--t2);margin-bottom:14px}
+  .specs{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:15px;margin-bottom:20px}
+  .specs dt{color:var(--texto-2)}
+  .specs dd{font-weight:500}
 
-  .hero-visual{position:relative;aspect-ratio:1/1.02;background:var(--gray);border-radius:28px;overflow:hidden;display:grid;place-items:center}
-  .hero-visual .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.05) 1px,transparent 1px);background-size:28px 28px}
-  .hero-visual svg.mug{width:72%;position:relative;z-index:1}
-  .beam{position:absolute;left:8%;right:8%;height:2px;background:var(--orange);box-shadow:0 0 12px 3px rgba(247,172,59,.85),0 0 40px 8px rgba(247,172,59,.35);z-index:2;animation:scan 4.5s cubic-bezier(.45,0,.55,1) infinite;border-radius:2px}
-  @keyframes scan{0%{top:30%;opacity:0}8%{opacity:1}50%{top:66%}92%{opacity:1}100%{top:30%;opacity:0}}
-  .hero-tag{position:absolute;z-index:3;background:var(--white);border-radius:14px;padding:12px 16px;font-size:12.5px;font-weight:500;box-shadow:0 12px 30px -16px rgba(0,0,0,.35);display:flex;align-items:center;gap:10px}
-  .hero-tag i{width:9px;height:9px;border-radius:50%;background:var(--orange);display:block}
-  .hero-tag.t1{top:26px;left:26px}
-  .hero-tag.t2{bottom:26px;right:26px}
+  /* ===== Seções ===== */
+  .secao{padding:112px 0}
+  .cabeca{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:44px}
+  .cabeca p{color:var(--texto-2);font-size:var(--t1);line-height:1.45;justify-self:end;max-width:30ch}
 
-  /* Marquee */
-  .marquee{background:var(--black);color:var(--white);overflow:hidden;padding:22px 0}
-  .marquee-track{display:flex;gap:56px;width:max-content;animation:marquee 32s linear infinite}
-  .marquee span{font-family:var(--font-detail);font-size:14px;letter-spacing:.45em;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:56px}
-  .marquee span::after{content:"";width:7px;height:7px;background:var(--orange);border-radius:50%}
-  @keyframes marquee{to{transform:translateX(-50%)}}
+  /* Catálogo */
+  .filtros{display:flex;flex-wrap:wrap;gap:6px 26px;margin-bottom:40px;border-bottom:1px solid var(--bancada)}
+  .filtro{background:none;border:0;padding:10px 0 12px;font-weight:500;cursor:pointer;color:var(--texto-2);position:relative}
+  .filtro small{font-size:12px;margin-left:3px;color:#8a8a8a}
+  .filtro[aria-pressed="true"]{color:var(--preto)}
+  .filtro[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--preto)}
+  .grade{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 22px}
+  .item[hidden]{display:none}
+  .item{min-width:0}
+  .item .placa{display:block;width:100%;border:0;padding:0;background:var(--inox);border-radius:var(--r);aspect-ratio:1/1;position:relative;overflow:hidden;cursor:zoom-in}
+  .placa img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .placa img + img{opacity:0;transition:opacity .35s}
+  .item:hover .placa img + img{opacity:1}
+  .item h3{font-family:var(--f-texto);font-stretch:108%;font-weight:600;font-size:var(--t0);line-height:1.35;letter-spacing:0;margin-top:14px}
+  .item .meta{font-size:14px;color:var(--texto-2)}
+  .item.outro{display:flex;flex-direction:column;justify-content:flex-end;border:1px dashed #9a9a9a;border-radius:var(--r);padding:24px;aspect-ratio:1/1}
+  .item.outro h3{font-family:var(--f-titulo);font-size:var(--t1);margin:0 0 8px}
+  .item.outro p{font-size:15px;color:var(--texto-2);margin-bottom:14px}
 
-  /* Produtos */
-  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
-  .chip{font-family:var(--font-body);font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:var(--white);cursor:pointer;transition:.2s;color:var(--ink)}
-  .chip:hover{border-color:var(--black)}
-  .chip.active{background:var(--black);color:var(--white);border-color:var(--black)}
-  .products{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-  @media (min-width:1100px){.products{grid-template-columns:repeat(4,1fr)}.card-body{padding:20px 20px 22px}.card-body h3{font-size:17px}.card-body p{font-size:14px}}
-  .card{border-radius:var(--radius);background:var(--white);border:1px solid var(--gray);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, border-color .3s}
-  .card:hover{transform:translateY(-6px);box-shadow:0 24px 50px -30px rgba(0,0,0,.35);border-color:transparent}
-  .card.hide{display:none}
-  .card-media{aspect-ratio:1/1;background:#F4F4F5;display:grid;place-items:center;position:relative;overflow:hidden}
-  .card-media svg{width:40%;height:auto;transition:transform .5s ease}
-  .card:hover .card-media svg{transform:scale(1.06) rotate(-2deg)}
-  .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-  .card:hover .card-media img{transform:scale(1.05)}
-  .card-cat{position:absolute;top:16px;left:16px;background:var(--white);font-family:var(--font-detail);font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
-  .card-body{padding:24px 24px 26px;display:flex;flex-direction:column;gap:10px;flex:1}
-  .card-body h3{font-size:19px;font-weight:600}
-  .card-body p{font-size:14.5px;color:var(--muted);flex:1}
-  .card-link{margin-top:10px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--black);align-self:flex-start;border-bottom:2px solid var(--orange);padding-bottom:3px;transition:gap .2s}
-  .card-link:hover{gap:12px}
-  .card-link svg{width:16px;height:16px}
-  .card.custom{background:var(--black);border-color:var(--black)}
-  .card.custom .card-media{background:#111}
-  .card.custom h3{color:var(--white)}
-  .card.custom p{color:#B9B9B9}
-  .card.custom .card-link{color:var(--white)}
-  .card.custom .card-cat{background:var(--orange)}
-
-
-  /* Catálogo: contagem, foto alternativa e galeria */
-  .chip small{font-size:11px;opacity:.55;margin-left:4px}
-  button.card-media{border:0;padding:0;width:100%;cursor:zoom-in;font:inherit;color:inherit;display:block}
-  .card-media img.alt{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
-  .card:hover .card-media img.alt{opacity:1}
-  .card-count{position:absolute;top:16px;right:16px;z-index:2;background:var(--black);color:var(--white);font-size:11px;font-weight:600;padding:6px 10px;border-radius:999px}
-  .card-cat{z-index:2}
-  body.noscroll{overflow:hidden}
-  .gal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);display:grid;place-items:center;padding:24px;opacity:0;transition:opacity .25s ease}
-  .gal[hidden]{display:none}
-  .gal.open{opacity:1}
-  .gal-box{position:relative;background:var(--white);border-radius:28px;width:min(1080px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-columns:1.25fr 1fr;overflow:hidden;transform:translateY(16px) scale(.98);transition:transform .3s ease}
-  .gal.open .gal-box{transform:none}
-  .gal-main{position:relative;background:#F4F4F5;aspect-ratio:1/1;max-height:calc(100vh - 48px)}
-  .gal-main img{width:100%;height:100%;object-fit:contain;transition:opacity .2s}
-  .gal-main img.swap{opacity:.35}
-  .gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:var(--white);box-shadow:0 6px 18px -8px rgba(0,0,0,.35);display:grid;place-items:center;cursor:pointer}
-  .gal-nav svg{width:18px;height:18px}
-  .gal-prev{left:16px}.gal-prev svg{transform:rotate(180deg)}
-  .gal-next{right:16px}
-  .gal-pos{position:absolute;left:16px;bottom:16px;background:var(--white);font-size:12px;font-weight:600;padding:6px 11px;border-radius:999px}
-  .gal-close{position:absolute;top:14px;right:14px;z-index:3;width:42px;height:42px;border-radius:50%;border:0;background:var(--gray);cursor:pointer;display:grid;place-items:center}
-  .gal-close svg{width:18px;height:18px}
-  .gal-info{min-width:0;padding:40px 36px 32px;display:flex;flex-direction:column;gap:14px;overflow:auto}
-  .gal-info h3{font-size:clamp(24px,2.6vw,32px);padding-right:40px}
-  .gal-desc{color:var(--muted)}
-  .gal-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin:6px 0 8px}
-  .gal-thumbs button{border:2px solid transparent;border-radius:12px;padding:0;background:#F4F4F5;cursor:pointer;overflow:hidden;aspect-ratio:1/1}
-  .gal-thumbs button.on{border-color:var(--orange)}
-  .gal-thumbs img{width:100%;height:100%;object-fit:cover}
-  .gal-wa{align-self:flex-start}
-  .gal-note{color:var(--muted);font-size:12.5px}
-  @media (max-width:820px){
-    .gal{padding:0;place-items:end center}
-    .gal-box{grid-template-columns:minmax(0,1fr);width:100%;border-radius:24px 24px 0 0;max-height:94vh;overflow:auto}
-    .gal-main{aspect-ratio:1/1;max-height:none}
-    .gal-info{padding:22px 22px 28px;overflow:visible}
-    .gal-thumbs{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:60px;overflow-x:auto}
-  }
-  /* Diferenciais */
-  .features{background:var(--gray)}
-  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-  .feature{background:var(--white);border-radius:var(--radius);padding:36px 32px}
-  .feature .ico{width:52px;height:52px;border-radius:14px;background:var(--black);display:grid;place-items:center;margin-bottom:26px}
-  .feature .ico svg{width:24px;height:24px}
-  .feature h3{font-size:19px;font-weight:600;margin-bottom:10px}
-  .feature p{color:var(--muted);font-size:15px}
+  /* Materiais */
+  .materiais{background:var(--bancada)}
+  .mat-grade{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 22px}
+  .mat img{border-radius:var(--r);aspect-ratio:1/1;object-fit:cover;width:100%;height:auto}
+  .mat h3{font-family:var(--f-texto);font-stretch:108%;font-weight:600;font-size:var(--t1);letter-spacing:0;margin:16px 0 4px}
+  .mat p{color:var(--texto-2);font-size:15.5px}
 
   /* Como funciona */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--black)}
-  .step{padding:36px 32px 10px 0;position:relative}
-  .step + .step{padding-left:32px;border-left:1px solid var(--gray)}
-  .step .num{font-family:var(--font-display);font-size:56px;color:var(--orange);line-height:1;margin-bottom:22px;display:block}
-  .step h3{font-size:20px;font-weight:600;margin-bottom:10px}
-  .step p{color:var(--muted);font-size:15px;max-width:300px}
+  .passos{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:passo}
+  .passo{padding:0 32px 0 0;position:relative}
+  .passo::before{counter-increment:passo;content:counter(passo);display:block;font-family:var(--f-titulo);font-weight:800;font-size:var(--t5);line-height:1;margin-bottom:22px}
+  .passo::after{content:"";position:absolute;left:58px;right:24px;top:34px;height:1px;background:var(--linha)}
+  .passo:last-child::after{display:none}
+  .passo h3{font-family:var(--f-texto);font-stretch:108%;font-weight:600;font-size:var(--t1);letter-spacing:0;margin-bottom:8px}
+  .passo p{color:var(--texto-2)}
 
   /* Sobre */
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-  .about-visual{aspect-ratio:1/1;border-radius:28px;background:var(--black);position:relative;overflow:hidden;display:grid;place-items:center}
-  .about-visual .ring{position:absolute;border:1px solid rgba(247,172,59,.35);border-radius:50%}
-  .about-visual .word{font-family:var(--font-display);font-size:clamp(34px,5vw,58px);color:var(--white);letter-spacing:.02em;position:relative;z-index:1}
-  .about-visual .word b{color:var(--orange);font-weight:800}
-  .about-visual .cap{position:absolute;bottom:28px;left:0;right:0;text-align:center;color:#9A9A9A}
-  .about-text .eyebrow{display:block;margin-bottom:16px}
-  .about-text h2{margin-bottom:24px}
-  .about-text p{color:var(--muted);font-size:16.5px;margin-bottom:18px}
-  .about-list{list-style:none;margin-top:28px;display:grid;gap:14px}
-  .about-list li{display:flex;gap:14px;align-items:center;font-weight:500}
-  .about-list li::before{content:"";width:22px;height:2px;background:var(--orange);flex:none}
+  .sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .sobre-grid p{font-size:var(--t1);line-height:1.5;color:var(--texto-2);margin-bottom:28px}
+  .pontos{list-style:none;display:grid;gap:14px;font-weight:500}
+  .pontos li{display:flex;gap:14px;align-items:baseline}
+  .pontos li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--laranja);box-shadow:0 0 0 3px rgba(247,172,59,.25);flex:none;transform:translateY(-2px)}
 
-  /* CTA */
-  .cta{padding:0 0 110px}
-  .cta-box{background:var(--black);border-radius:32px;padding:80px 64px;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center;position:relative;overflow:hidden}
-  .cta-box::before{content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(247,172,59,.32),transparent 65%)}
-  .cta-box h2{color:var(--white);font-size:clamp(30px,4.4vw,52px);margin-bottom:18px}
-  .cta-box h2 span{color:var(--orange)}
-  .cta-box p{color:#B9B9B9;max-width:460px}
-  .cta-actions{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1}
-  .cta-actions .btn{justify-content:center;padding:18px 26px;font-size:16px}
-  .cta-actions .btn-outline{border:1px solid #3A3A3A;color:var(--white);background:transparent}
-  .cta-actions .btn-outline:hover{border-color:var(--white)}
-  .cta-actions small{color:#8A8A8A;text-align:center;font-size:13px}
+  /* Contato */
+  .contato{background:var(--preto);color:var(--branco);padding:112px 0}
+  .contato h2{color:var(--branco);margin-bottom:28px}
+  .numero{display:inline-block;font-family:var(--f-titulo);font-weight:700;font-size:clamp(34px,7.4vw,96px);line-height:1;letter-spacing:-.02em;text-decoration:none;margin-bottom:36px}
+  .numero:hover{color:var(--laranja)}
+  .contato .acoes{gap:32px}
+  .contato .link{color:var(--branco)}
+  .contato small{display:block;margin-top:28px;color:#a8a8a8;font-size:14px}
 
-  /* Footer */
-  footer{border-top:1px solid var(--gray);padding:40px 0}
-  .foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-  .foot-links{display:flex;gap:24px}
-  .foot-links a:hover{color:var(--black)}
+  footer{padding:36px 0}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--texto-2)}
+  footer img{height:26px;width:auto}
 
-  /* WhatsApp flutuante */
-  .wa-float{position:fixed;right:22px;bottom:22px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--orange);display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.4);transition:transform .2s}
-  .wa-float:hover{transform:scale(1.07)}
-  .wa-float svg{width:30px;height:30px}
-  .wa-float::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--orange);animation:pulse 2.4s ease-out infinite}
-  @keyframes pulse{from{transform:scale(1);opacity:.8}to{transform:scale(1.55);opacity:0}}
+  .wa-fixo{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:var(--laranja);display:grid;place-items:center;box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
+  .wa-fixo svg{width:28px;height:28px}
 
-  /* Revelar ao rolar */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease, transform .8s ease}
-  .reveal.in{opacity:1;transform:none}
+  /* ===== Galeria ===== */
+  .gal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:24px}
+  .gal[hidden]{display:none}
+  .gal-caixa{position:relative;background:var(--branco);border-radius:6px;width:min(1080px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);overflow:hidden}
+  .gal-foto{position:relative;background:var(--inox);aspect-ratio:1/1;max-height:calc(100vh - 48px)}
+  .gal-foto img{width:100%;height:100%;object-fit:contain;transition:opacity .2s}
+  .gal-foto img.troca{opacity:.3}
+  .gal-seta{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:var(--r);border:0;background:var(--branco);display:grid;place-items:center;cursor:pointer}
+  .gal-seta svg{width:20px;height:20px}
+  .gal-ant{left:14px}.gal-ant svg{transform:rotate(180deg)}
+  .gal-prox{right:14px}
+  .gal-pos{position:absolute;left:14px;bottom:14px;background:var(--branco);font-size:13px;font-weight:600;padding:5px 10px;border-radius:var(--r)}
+  .gal-fechar{position:absolute;top:12px;right:12px;z-index:3;width:44px;height:44px;border-radius:var(--r);border:0;background:var(--bancada);cursor:pointer;display:grid;place-items:center}
+  .gal-fechar svg{width:18px;height:18px}
+  .gal-info{min-width:0;padding:36px 32px 30px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+  .gal-info .grupo{font-size:14px;color:var(--texto-2)}
+  .gal-info h3{font-size:clamp(24px,2.6vw,var(--t2));padding-right:44px}
+  .gal-info p{color:var(--texto-2)}
+  .gal-mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:8px;margin:4px 0 8px}
+  .gal-mini button{border:2px solid transparent;border-radius:var(--r);padding:0;background:var(--inox);cursor:pointer;overflow:hidden;aspect-ratio:1/1}
+  .gal-mini button[aria-current="true"]{border-color:var(--preto)}
+  .gal-mini img{width:100%;height:100%;object-fit:cover}
+  .gal-info .btn{align-self:flex-start}
+  .gal-info small{color:var(--texto-2);font-size:13px}
+  body.travado{overflow:hidden}
 
-  /* Responsivo */
-  @media (max-width:980px){
-    .hero-grid,.about-grid,.cta-box{grid-template-columns:1fr}
-    .products,.feature-grid{grid-template-columns:repeat(2,1fr)}
-    .steps{grid-template-columns:1fr;border-top:0}
-    .step,.step + .step{padding:28px 0;border-left:0;border-top:1px solid var(--gray)}
-    .cta-box{padding:56px 32px}
-    .hero-visual{max-width:520px;width:100%;margin:0 auto}
+  /* ===== Responsivo ===== */
+  @media (max-width:1020px){
+    .bancada-grid{grid-template-columns:minmax(0,1fr);gap:44px;padding-top:48px;padding-bottom:64px}
+    .grade{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .cabeca{grid-template-columns:1fr;gap:14px}.cabeca p{justify-self:start}
+    .sobre-grid{grid-template-columns:1fr;gap:20px}
   }
   @media (max-width:760px){
-    .nav-links{position:fixed;top:76px;left:0;right:0;background:var(--white);flex-direction:column;gap:0;padding:8px 24px 24px;border-bottom:1px solid var(--gray);transform:translateY(-120%);transition:transform .35s ease;z-index:-1}
-    .nav-links.open{transform:none}
-    .nav-links a{padding:16px 0;border-bottom:1px solid var(--gray);font-size:16px}
-    .nav .btn{display:none}
-    .menu-toggle{display:block}
-    .section{padding:80px 0}
-    .products,.feature-grid{grid-template-columns:1fr}
-    .hero{padding:40px 0 72px}
-    .hero-stats{gap:24px}
-    .foot{flex-direction:column;text-align:center}
+    .nav{position:fixed;top:74px;left:0;right:0;background:var(--branco);flex-direction:column;gap:0;padding:4px 28px 20px;border-bottom:1px solid var(--bancada);display:none}
+    .nav.aberto{display:flex}
+    .nav a{padding:14px 0;border-bottom:1px solid var(--bancada)}
+    .topo .btn{display:none}
+    .menu{display:block}
+    .secao,.contato{padding:80px 0}
+    .grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+    .mat-grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+    .mat h3{font-size:var(--t0)}.mat p{font-size:14px}
+    .passos{grid-template-columns:1fr;gap:36px}
+    .passo::after{display:none}
+    .abas .aba{font-size:13px;padding:13px 8px 11px}
+    .gal{padding:0;place-items:end center}
+    .gal-caixa{grid-template-columns:minmax(0,1fr);width:100%;border-radius:10px 10px 0 0;max-height:94vh;overflow:auto}
+    .gal-foto{max-height:none}
+    .gal-info{padding:20px 22px 28px;overflow:visible}
+    .gal-mini{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:58px;overflow-x:auto}
   }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
-    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
   }
 </style>
 </head>
 <body>
 
-<!-- Ícones reutilizáveis -->
-<svg width="0" height="0" style="position:absolute">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z"/></symbol>
-  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></g></symbol>
+  <symbol id="i-seta" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></symbol>
 </svg>
 
-<header id="top">
-  <div class="wrap nav">
-    <a href="#top" class="logo" aria-label="ZIPLASER, início"><img src="assets/secundaria-dark.png" alt="ZIPLASER Creative" width="640" height="220"></a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#produtos">Produtos</a>
+<header class="topo">
+  <div class="wrap">
+    <a href="#" class="marca" aria-label="ZIPLASER, voltar ao início"><img src="assets/secundaria-dark.png" alt="ZIPLASER Creative" width="640" height="220"></a>
+    <nav class="nav" id="nav" aria-label="Seções">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#materiais">Materiais</a>
       <a href="#como-funciona">Como funciona</a>
-      <a href="#sobre">Sobre</a>
       <a href="#contato">Contato</a>
     </nav>
-    <a class="btn btn-black wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#"><svg><use href="#i-wa"/></svg>Fale conosco</a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+    <a class="btn btn-preto wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#">Pedir orçamento</a>
+    <button class="menu" id="menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
   </div>
 </header>
 
 <main>
-  <!-- BANNER CARROSSEL: produtos em destaque -->
-  <section class="banner" aria-label="Produtos em destaque">
+  <!-- Bancada: o título é "gravado" pelo laser ao abrir a página -->
+  <section class="bancada" aria-labelledby="titulo">
+    <div class="regua" aria-hidden="true"></div>
+    <div class="wrap bancada-grid">
+      <div>
+        <div class="gravacao">
+          <h1 id="titulo">Sua marca gravada a laser em copos, canetas, garrafas e muito mais.</h1>
+          <div class="laser" aria-hidden="true"></div>
+        </div>
+        <p class="lead">Gravação UV de alta precisão, com acabamento fino e delicado. Você escolhe a peça, manda a arte e recebe pronto.</p>
+        <div class="acoes">
+          <a class="btn btn-laser wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir orçamento no WhatsApp</a>
+          <a class="link" href="#catalogo">Ver o catálogo</a>
+        </div>
+      </div>
+
+      <article class="ficha" id="ficha" aria-label="Produtos em destaque">
+        <div class="abas" role="tablist" aria-label="Destaques"></div>
+        <div class="ficha-foto"><img src="" alt="" width="900" height="900"></div>
+        <div class="ficha-corpo">
+          <h3></h3>
+          <dl class="specs"></dl>
+          <a class="btn btn-laser" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir este produto</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="secao" id="catalogo" aria-labelledby="t-catalogo">
     <div class="wrap">
-      <div class="bn" id="banner" aria-roledescription="carrossel"></div>
+      <div class="cabeca">
+        <h2 id="t-catalogo">Catálogo</h2>
+        <p>38 modelos em várias cores. Toque na foto para ver todas as opções.</p>
+      </div>
+      <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tipo de produto"></div>
+      <div class="grade" id="grade"></div>
     </div>
   </section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="reveal">
-        <span class="eyebrow">Gravação a laser UV</span>
-        <h1>Precisão que se vê nos <em>detalhes.</em></h1>
-        <p class="lead">Gravação a laser de alta precisão para acabamentos finos e delicados. Personalizamos canecas, copos, garrafas, canetas, talheres de madeira, raquetes de frescobol e muito mais.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-orange wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#"><svg><use href="#i-wa"/></svg>Fazer orçamento</a>
-          <a class="btn btn-ghost" href="#produtos">Ver produtos <svg><use href="#i-arrow"/></svg></a>
-        </div>
-        <div class="hero-stats">
-          <div><strong>UV</strong><span>Laser de alta precisão</span></div>
-          <div><strong>100%</strong><span>Personalizado</span></div>
-          <div><strong>1 a 1</strong><span>Atendimento direto</span></div>
-        </div>
-      </div>
-
-      <div class="hero-visual reveal" aria-hidden="true">
-        <div class="grid-bg"></div>
-        <div class="hero-tag t1"><i></i>Acabamento fino</div>
-        <div class="hero-tag t2"><i></i>Gravação permanente</div>
-        <div class="beam"></div>
-        <svg class="mug" viewBox="0 0 320 300">
-          <defs>
-            <clipPath id="engraveClip">
-              <rect x="40" y="70" width="200" height="0">
-                <animate attributeName="height" values="0;0;150;150;0" keyTimes="0;.08;.5;.92;1" dur="4.5s" repeatCount="indefinite"/>
-              </rect>
-            </clipPath>
-          </defs>
-          <ellipse cx="140" cy="272" rx="112" ry="10" fill="rgba(0,0,0,.08)"/>
-          <path d="M232 105c40 0 56 18 56 48s-18 50-58 52" fill="none" stroke="#000" stroke-width="16" stroke-linecap="round"/>
-          <path d="M36 52h208v190a24 24 0 0 1-24 24H60a24 24 0 0 1-24-24Z" fill="#fff"/>
-          <rect x="36" y="52" width="208" height="14" rx="3" fill="#000"/>
-          <path d="M52 76v160" stroke="rgba(0,0,0,.06)" stroke-width="10" stroke-linecap="round"/>
-          <g clip-path="url(#engraveClip)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="140" cy="128" r="28" stroke-width="2"/>
-            <path d="M140 108l6 13 14 2-10 10 2 14-12-7-12 7 2-14-10-10 14-2Z" stroke-width="1.6"/>
-            <path d="M88 178h104" stroke-width="2"/>
-            <path d="M104 192h72" stroke-width="1.2"/>
-            <path d="M118 204h44" stroke-width="1.2"/>
-            <path d="M70 128c0-12 4-22 10-28M210 128c0-12-4-22-10-28" stroke-width="1.2"/>
-          </g>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track" id="marquee"></div>
-  </div>
-
-  <!-- PRODUTOS -->
-  <section class="section" id="produtos">
+  <section class="secao materiais" id="materiais" aria-labelledby="t-mat">
     <div class="wrap">
-      <div class="section-head reveal">
-        <div>
-          <span class="eyebrow">Portfólio</span>
-          <h2>Nossos produtos</h2>
-        </div>
-        <p>38 modelos em várias cores. Clique na foto para ver a galeria e peça pelo WhatsApp.</p>
+      <div class="cabeca">
+        <h2 id="t-mat">Como a gravação fica em cada material</h2>
+        <p>Não usamos tinta. A cor da gravação vem da reação do laser com o próprio material.</p>
       </div>
-      <div class="filters reveal" id="filters"></div>
-      <div class="products" id="products"></div>
+      <div class="mat-grade">
+        <figure class="mat"><img src="assets/materiais/inox-pintado.jpg" alt="Logo gravada em caneca preta, com o inox aparecendo" loading="lazy" width="640" height="640"><h3>Inox pintado</h3><p>O laser remove a pintura e revela o metal, com brilho prateado.</p></figure>
+        <figure class="mat"><img src="assets/materiais/aluminio.jpg" alt="Logo gravada em caneta metálica azul" loading="lazy" width="640" height="640"><h3>Canetas e chaveiros de metal</h3><p>Traço claro e fino, que contrasta com a cor da peça.</p></figure>
+        <figure class="mat"><img src="assets/materiais/bambu.jpg" alt="Logo gravada em copo de bambu" loading="lazy" width="640" height="640"><h3>Bambu</h3><p>A gravação escurece a superfície e acompanha o veio natural.</p></figure>
+        <figure class="mat"><img src="assets/materiais/couro.jpg" alt="Logo gravada em carteira marrom" loading="lazy" width="640" height="640"><h3>Couro</h3><p>Baixo-relevo escurecido, discreto e elegante.</p></figure>
+        <figure class="mat"><img src="assets/materiais/papelao.jpg" alt="Logo gravada em caneta de papelão" loading="lazy" width="640" height="640"><h3>Papelão</h3><p>Tom tostado direto no material, ótimo para brindes sustentáveis.</p></figure>
+        <figure class="mat"><img src="assets/materiais/madeira.jpg" alt="Logo gravada em tábua de bambu" loading="lazy" width="640" height="640"><h3>Tábuas e utensílios</h3><p>Marcação escura e nítida, que não sai com a lavagem.</p></figure>
+      </div>
     </div>
   </section>
 
-  <!-- DIFERENCIAIS -->
-  <section class="section features">
+  <section class="secao" id="como-funciona" aria-labelledby="t-como">
     <div class="wrap">
-      <div class="section-head reveal">
-        <div>
-          <span class="eyebrow">Por que a ZIPLASER</span>
-          <h2>Delicadeza com<br>precisão de laser</h2>
-        </div>
+      <div class="cabeca">
+        <h2 id="t-como">Como funciona</h2>
+        <p>Todo o atendimento é pelo WhatsApp, do orçamento à entrega.</p>
       </div>
-      <div class="feature-grid">
-        <div class="feature reveal">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#F7AC3B" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg></div>
-          <h3>Alta precisão</h3>
-          <p>O laser UV permite traços finíssimos, ideais para textos pequenos, logos detalhados e desenhos delicados.</p>
-        </div>
-        <div class="feature reveal">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#F7AC3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6L20 9.5l-4 4 1 5.8-5-2.8-5 2.8 1-5.8-4-4 5.4-.9Z"/></svg></div>
-          <h3>Acabamento fino</h3>
-          <p>Cada peça é revisada com cuidado para que a gravação fique limpa, nítida e com aspecto premium.</p>
-        </div>
-        <div class="feature reveal">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#F7AC3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V7Z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
-          <h3>Gravação permanente</h3>
-          <p>Feita em maquinário próprio, a gravação faz parte da peça: não desbota e não sai com o tempo.</p>
-        </div>
-      </div>
+      <ol class="passos">
+        <li class="passo"><h3>Escolha a peça</h3><p>Veja o catálogo e mande o modelo e a quantidade que você precisa.</p></li>
+        <li class="passo"><h3>Envie sua arte</h3><p>Pode ser logo, nome, frase ou desenho. Se precisar, a gente adapta para a gravação.</p></li>
+        <li class="passo"><h3>Aprove e receba</h3><p>Você aprova a prévia, a gente grava, confere peça por peça e combina a entrega.</p></li>
+      </ol>
     </div>
   </section>
 
-  <!-- COMO FUNCIONA -->
-  <section class="section" id="como-funciona">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div>
-          <span class="eyebrow">Passo a passo</span>
-          <h2>Como funciona</h2>
-        </div>
-        <p>Simples e direto: todo o atendimento é feito pelo WhatsApp, do orçamento à entrega.</p>
-      </div>
-      <div class="steps">
-        <div class="step reveal">
-          <span class="num">01</span>
-          <h3>Escolha o produto</h3>
-          <p>Navegue pelo portfólio e veja qual peça combina com o que você precisa.</p>
-        </div>
-        <div class="step reveal">
-          <span class="num">02</span>
-          <h3>Envie sua ideia</h3>
-          <p>Mande um nome, frase, logo ou arte. Se precisar, a gente ajuda a adaptar o desenho.</p>
-        </div>
-        <div class="step reveal">
-          <span class="num">03</span>
-          <h3>Receba gravado</h3>
-          <p>Aprovou a arte? A gente grava com todo cuidado e combina a entrega com você.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOBRE -->
-  <section class="section features" id="sobre">
-    <div class="wrap about-grid">
-      <div class="about-visual reveal" aria-hidden="true">
-        <div class="ring" style="width:90%;height:90%"></div>
-        <div class="ring" style="width:66%;height:66%"></div>
-        <div class="ring" style="width:42%;height:42%;border-color:rgba(247,172,59,.6)"></div>
-        <img class="about-logo" src="assets/principal-light.png" alt="" width="700" height="423">
-      </div>
-      <div class="about-text reveal">
-        <span class="eyebrow">Sobre nós</span>
-        <h2>Detalhes que transformam objetos em lembranças</h2>
-        <p>A ZIPLASER é especializada em gravação a laser UV de alta precisão, com foco em acabamentos finos e delicados.</p>
-        <p>Todos os projetos são feitos em maquinário próprio, e a gravação não desbota nem sai com o tempo. Gravamos nomes, frases, escudos de times e o logotipo da sua empresa, transformando peças do dia a dia em presentes únicos e brindes com a identidade da sua marca.</p>
-        <ul class="about-list">
-          <li>Personalização com nomes, frases, logos e artes</li>
-          <li>Atendimento próximo, direto pelo WhatsApp</li>
-          <li>Todas as peças são conferidas antes do envio</li>
+  <section class="secao" id="sobre" aria-labelledby="t-sobre" style="padding-top:0">
+    <div class="wrap sobre-grid">
+      <h2 id="t-sobre">Sobre a ZIPLASER</h2>
+      <div>
+        <p>Somos especializados em gravação a laser UV para acabamentos finos e delicados. Transformamos peças do dia a dia em presentes únicos e em brindes com a identidade da sua marca.</p>
+        <ul class="pontos">
+          <li>Maquinário próprio</li>
+          <li>Gravação que não desbota e não sai com o tempo</li>
+          <li>Todas as peças conferidas antes do envio</li>
+          <li>Nomes, frases, escudos de times e logotipos</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- CTA / CONTATO -->
-  <section class="section cta" id="contato" style="padding-top:110px">
+  <section class="contato escuro" id="contato" aria-labelledby="t-contato">
     <div class="wrap">
-      <div class="cta-box reveal">
-        <div>
-          <span class="eyebrow" style="color:#8A8A8A;display:block;margin-bottom:18px">Contato</span>
-          <h2>Vamos gravar algo <span>especial?</span></h2>
-          <p>Tire suas dúvidas, peça um orçamento ou mande sua ideia. A gente responde pelo WhatsApp.</p>
-        </div>
-        <div class="cta-actions">
-          <a class="btn btn-orange wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#"><svg><use href="#i-wa"/></svg>Chamar no WhatsApp</a>
-          <a class="btn btn-outline" href="https://www.instagram.com/ziplasercreative/" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg>@ziplasercreative</a>
-          <small>WhatsApp: +55 (11) 91942-8392</small>
-        </div>
+      <h2 id="t-contato">Peça seu orçamento</h2>
+      <a class="numero wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#">(11) 91942-8392</a>
+      <div class="acoes">
+        <a class="btn btn-laser wa" data-msg="Olá! Vim pelo site da ZIPLASER e gostaria de fazer um orçamento." href="#"><svg aria-hidden="true"><use href="#i-wa"/></svg>Abrir conversa no WhatsApp</a>
+        <a class="link" href="https://www.instagram.com/ziplasercreative/" target="_blank" rel="noopener">Instagram @ziplasercreative</a>
       </div>
+      <small>Respondemos pelo WhatsApp. Envie a peça, a quantidade e a sua arte.</small>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="wrap foot">
-    <a href="#top" class="logo logo-foot" aria-label="ZIPLASER, voltar ao topo"><img src="assets/submarca-dark.png" alt="ZIPLASER Creative" width="560" height="138"></a>
-    <div class="foot-links">
-      <a href="#produtos">Produtos</a>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="https://www.instagram.com/ziplasercreative/" target="_blank" rel="noopener">Instagram</a>
-    </div>
-    <span>© <span id="year"></span> ZIPLASER · Gravação a laser UV</span>
+  <div class="wrap">
+    <img src="assets/submarca-dark.png" alt="ZIPLASER Creative" width="560" height="138">
+    <span>© <span id="ano"></span> ZIPLASER. Gravação a laser UV.</span>
   </div>
 </footer>
 
-<div class="gal" id="gallery" role="dialog" aria-modal="true" aria-label="Fotos do produto" hidden>
-  <div class="gal-box">
-    <button class="gal-close" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-    <div class="gal-main">
+<a class="wa-fixo wa" data-msg="Olá! Vim pelo site da ZIPLASER e tenho uma dúvida." href="#" aria-label="Conversar no WhatsApp"><svg aria-hidden="true"><use href="#i-wa"/></svg></a>
+
+<div class="gal" id="galeria" role="dialog" aria-modal="true" aria-labelledby="gal-titulo" hidden>
+  <div class="gal-caixa">
+    <button class="gal-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="gal-foto">
       <img src="" alt="">
-      <button class="gal-nav gal-prev" aria-label="Foto anterior"><svg><use href="#i-arrow"/></svg></button>
-      <button class="gal-nav gal-next" aria-label="Próxima foto"><svg><use href="#i-arrow"/></svg></button>
-      <span class="gal-pos"></span>
+      <button class="gal-seta gal-ant" aria-label="Foto anterior"><svg aria-hidden="true"><use href="#i-seta"/></svg></button>
+      <button class="gal-seta gal-prox" aria-label="Próxima foto"><svg aria-hidden="true"><use href="#i-seta"/></svg></button>
+      <span class="gal-pos" aria-live="polite"></span>
     </div>
     <div class="gal-info">
-      <span class="eyebrow gal-group"></span>
-      <h3></h3>
-      <p class="gal-desc"></p>
-      <div class="gal-thumbs"></div>
-      <a class="btn btn-orange gal-wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Pedir pelo WhatsApp</a>
-      <small class="gal-note">Fotos ilustrativas com a logo ZIPLASER. Gravamos a sua logo, nome ou arte.</small>
+      <span class="grupo"></span>
+      <h3 id="gal-titulo"></h3>
+      <p class="desc"></p>
+      <div class="gal-mini"></div>
+      <a class="btn btn-laser gal-wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pedir este produto</a>
+      <small>Fotos ilustrativas com a logo ZIPLASER. Gravamos a sua logo, nome ou arte.</small>
     </div>
   </div>
 </div>
 
-<a class="wa-float wa" data-msg="Olá! Vim pelo site da ZIPLASER e tenho uma dúvida." href="#" aria-label="Conversar no WhatsApp" style="color:#000"><svg><use href="#i-wa"/></svg></a>
-
 <script>
-  // ====== CONFIGURAÇÃO ======
   const WHATSAPP = "5511919428392";
+  const waLink = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  const pedido = nome => `Olá! Vim pelo site da ZIPLASER e tenho interesse em: ${nome}.`;
 
-  // Para adicionar produtos, basta incluir novos itens nesta lista.
-  // Para usar uma foto, troque "art" por: photo: "data:image/jpeg;base64,..." (ou o caminho da imagem).
-  // Catálogo: cada modelo tem n fotos em assets/catalogo/<id>-<n>.jpg (miniaturas em assets/catalogo/thumb/)
+  // Destaques da bancada (para trocar, edite esta lista)
+  const DESTAQUES = [
+    { aba:"Garrafa 950 ml", nome:"Garrafa térmica 950 ml preta", img:"assets/banner/garrafa-950ml.jpg",
+      specs:[["Material","Inox com pintura preta"],["Gravação","Revela o inox, com brilho metálico"],["Cores","6 opções no catálogo"]] },
+    { aba:"Copo PET 360 ml", nome:"Copo PET 360 ml", img:"assets/banner/copo-pet-360.jpg",
+      specs:[["Material","PET transparente"],["Gravação","Branca e fosca, sem tinta"],["Ideal para","Festas, eventos e bares"]] },
+    { aba:"Caneta metálica", nome:"Caneta metálica", img:"assets/banner/caneta-metal-er143b.jpg",
+      specs:[["Material","Metal"],["Gravação","Traço claro e fino"],["Cores","11 opções"]] },
+    { aba:"Caneta ecológica", nome:"Caneta ecológica", img:"assets/banner/caneta-ecologica-00007.jpg",
+      specs:[["Material","Papelão"],["Gravação","Tom tostado, sem tinta"],["Cores","7 opções"]] }
+  ];
+
   const CATALOG = [
     {"id": "caneca-canudo-600", "group": "Canecas", "name": "Caneca térmica com canudo 600 ml", "desc": "Caneca térmica com tampa e canudo de inox, em 6 cores. A gravação revela o inox e fica com brilho metálico.", "n": 6},
     {"id": "caneca-350", "group": "Canecas", "name": "Caneca térmica 350 ml", "desc": "Caneca térmica de inox com tampa, ótima para café no escritório. Gravação fina e elegante.", "n": 3},
@@ -581,198 +431,128 @@
     {"id": "frescobol", "group": "Esporte", "name": "Raquete de frescobol", "desc": "Raquete de madeira com sua arte, nome ou marca gravados.", "n": 3}
   ];
 
-  const ART = {
-    copo:`<svg viewBox="0 0 120 140" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M28 18h64l-7 104a8 8 0 0 1-8 7H43a8 8 0 0 1-8-7Z" fill="#fff"/><path d="M26 18h68" stroke-width="5"/><g stroke="#F7AC3B" stroke-width="2"><circle cx="60" cy="66" r="13"/><path d="M45 92h30M50 100h20"/></g></svg>`,
-    caneca:`<svg viewBox="0 0 140 130" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M100 42c18 0 24 8 24 22s-8 22-26 23" stroke-width="8"/><path d="M18 22h86v86a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10Z" fill="#fff"/><g stroke="#F7AC3B" stroke-width="2"><path d="M61 52l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1Z"/><path d="M42 94h38"/></g></svg>`,
-    caneta:`<svg viewBox="0 0 140 140" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(-38 70 70)"><rect x="14" y="62" width="96" height="16" rx="3" fill="#fff"/><path d="M110 62l18 8-18 8Z" fill="#fff"/><path d="M8 66h6v8H8Z" fill="#000"/><path d="M30 62v-8h22v8" /><path d="M58 70h40" stroke="#F7AC3B" stroke-width="2"/></g></svg>`,
-    colher:`<svg viewBox="0 0 140 140" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(-38 70 70)"><ellipse cx="34" cy="70" rx="24" ry="17" fill="#fff"/><path d="M58 66h68a4 4 0 0 1 0 8H58" fill="#fff"/><g stroke="#F7AC3B" stroke-width="1.8"><path d="M24 70c6-8 14-8 20 0M24 70c6 8 14 8 20 0"/><path d="M76 70h36"/></g></g></svg>`,
-    raquete:`<svg viewBox="0 0 120 150" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M60 10c26 0 42 18 42 44 0 26-18 42-30 48v34a6 6 0 0 1-6 6h-12a6 6 0 0 1-6-6v-34c-12-6-30-22-30-48 0-26 16-44 42-44Z" fill="#fff"/><path d="M48 112h24" /><g stroke="#F7AC3B" stroke-width="2"><circle cx="60" cy="52" r="16"/><path d="M60 36v32M44 52h32"/></g></svg>`,
-    mais:`<svg viewBox="0 0 120 120" fill="none" stroke="#F7AC3B" stroke-width="2.4" stroke-linecap="round"><circle cx="60" cy="60" r="44" stroke-dasharray="4 7"/><path d="M60 42v36M42 60h36" stroke-width="3"/></svg>`
-  };
+  const foto = (id,i,mini) => `assets/catalogo/${mini?"thumb/":""}${id}-${i}.jpg`;
 
-  const waLink = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  // Links de WhatsApp fixos
+  document.querySelectorAll("a.wa").forEach(a => { a.href = waLink(a.dataset.msg); a.target = "_blank"; a.rel = "noopener"; });
 
-
-  // ====== BANNER: produtos em destaque ======
-  // Para trocar os destaques, edite esta lista.
-  const DESTAQUES = [
-    { code:"05029", tag:"Destaque", title:"Garrafa térmica <span>950 ml</span>", name:"Garrafa térmica 950 ml preta",
-      desc:"Garrafa de inox preta com sua logo ou nome gravados a laser. A gravação revela o inox e não sai com o tempo.",
-      feats:["Inox","Cor preta","Gravação permanente"], img:"assets/banner/garrafa-950ml.jpg" },
-    { code:"355ML", tag:"Destaque", title:"Copo <span>PET 360 ml</span>", name:"Copo PET 360 ml",
-      desc:"Copo de PET transparente com gravação branca e fosca, sem tinta. Ideal para festas, eventos e bares.",
-      feats:["PET transparente","Gravação fosca","Para eventos"], img:"assets/banner/copo-pet-360.jpg" },
-    { code:"ER143B", tag:"Destaque", title:"Caneta <span>metálica</span>", name:"Caneta metálica",
-      desc:"Caneta de metal com gravação de alta precisão: sua marca com traço fino e acabamento premium. Perfeita para brindes corporativos.",
-      feats:["11 cores","Acabamento premium","Ideal para brindes"], img:"assets/banner/caneta-metal-er143b.jpg" },
-    { code:"00007", tag:"Destaque", title:"Caneta <span>ecológica</span>", name:"Caneta ecológica",
-      desc:"Corpo em papelão com a gravação queimada direto no material. Uma opção sustentável para levar sua marca a mais pessoas.",
-      feats:["Sustentável","7 cores","Ótimo custo para brindes"], img:"assets/banner/caneta-ecologica-00007.jpg" }
-  ];
+  // ===== Ficha de destaques =====
   (function(){
-    const root=document.getElementById("banner"); if(!root) return;
-    const TIME=6000;
-    root.style.setProperty("--bn-time", TIME+"ms");
-    root.innerHTML = DESTAQUES.map((d,i)=>`
-      <div class="bn-slide${i===0?" on":""}" role="group" aria-roledescription="slide" aria-label="${i+1} de ${DESTAQUES.length}: ${d.name}">
-        <div class="bn-text">
-          <div class="bn-tag"><span class="eyebrow">${d.tag}</span></div>
-          <h2>${d.title}</h2>
-          <p>${d.desc}</p>
-          <ul class="bn-feats">${d.feats.map(f=>`<li>${f}</li>`).join("")}</ul>
-          <a class="btn btn-orange" target="_blank" rel="noopener" href="${waLink(`Olá! Vim pelo site da ZIPLASER e tenho interesse em: ${d.name} (cód. ${d.code}).`)}"><svg><use href="#i-wa"/></svg>Pedir pelo WhatsApp</a>
-        </div>
-        <div class="bn-media"><div class="beam"></div><img src="${d.img}" alt="${d.name} com gravação a laser da ZIPLASER"${i?' loading="lazy"':''}></div>
-      </div>`).join("") + `
-      <div class="bn-ctrl">
-        <div class="bn-dots">${DESTAQUES.map((d,i)=>`<button class="bn-dot${i===0?" on":""}" aria-label="Ver ${d.name}"><i></i></button>`).join("")}</div>
-        <div class="bn-arrows">
-          <button class="bn-arrow prev" aria-label="Anterior"><svg><use href="#i-arrow"/></svg></button>
-          <button class="bn-arrow next" aria-label="Próximo"><svg><use href="#i-arrow"/></svg></button>
-        </div>
-      </div>`;
-    const slides=[...root.querySelectorAll(".bn-slide")], dots=[...root.querySelectorAll(".bn-dot")];
-    let cur=0, timer=null, left=TIME, started=0, paused=false;
-    const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-    function go(n){
-      cur=(n+slides.length)%slides.length;
-      slides.forEach((s,i)=>s.classList.toggle("on",i===cur));
-      dots.forEach((d,i)=>{d.classList.remove("on","done"); void d.offsetWidth; if(i<cur) d.classList.add("done"); if(i===cur) d.classList.add("on");});
-      restart();
+    const ficha = document.getElementById("ficha"), abas = ficha.querySelector(".abas");
+    const img = ficha.querySelector(".ficha-foto img"), h3 = ficha.querySelector("h3"), dl = ficha.querySelector(".specs"), cta = ficha.querySelector(".btn");
+    const TEMPO = 6000; ficha.style.setProperty("--tempo", TEMPO+"ms");
+    abas.innerHTML = DESTAQUES.map((d,i)=>`<button class="aba" role="tab" id="aba-${i}" aria-selected="${i===0}">${d.aba}<i></i></button>`).join("");
+    DESTAQUES.forEach(d => { const p = new Image(); p.src = d.img; });
+    let atual = 0, timer = null, resta = TEMPO, inicio = 0, pausado = false;
+    const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function mostra(n, auto){
+      atual = (n + DESTAQUES.length) % DESTAQUES.length; const d = DESTAQUES[atual];
+      abas.querySelectorAll(".aba").forEach((b,i)=>{ b.setAttribute("aria-selected", i===atual); const t=b.querySelector("i"); t.style.animation="none"; void t.offsetWidth; t.style.animation=""; });
+      img.classList.add("troca");
+      setTimeout(()=>{ img.src = d.img; img.alt = `${d.nome} com gravação a laser ZIPLASER`; img.classList.remove("troca"); }, auto ? 300 : 0);
+      h3.textContent = d.nome;
+      dl.innerHTML = d.specs.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
+      cta.href = waLink(pedido(d.nome));
+      reinicia();
     }
-    function restart(){ clearTimeout(timer); left=TIME; if(!paused && !reduce) run(); }
-    function run(){ started=Date.now(); timer=setTimeout(()=>go(cur+1), left); }
-    function pause(){ if(paused) return; paused=true; root.classList.add("paused"); clearTimeout(timer); left-=Date.now()-started; }
-    function resume(){ if(!paused) return; paused=false; root.classList.remove("paused"); if(!reduce) run(); }
-    dots.forEach((d,i)=>d.addEventListener("click",()=>go(i)));
-    root.querySelector(".bn-arrow.prev").addEventListener("click",()=>go(cur-1));
-    root.querySelector(".bn-arrow.next").addEventListener("click",()=>go(cur+1));
-    root.addEventListener("mouseenter",pause); root.addEventListener("mouseleave",resume);
-    root.addEventListener("focusin",pause); root.addEventListener("focusout",resume);
-    let x0=null;
-    root.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;},{passive:true});
-    root.addEventListener("touchend",e=>{ if(x0===null) return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45) go(cur+(dx<0?1:-1)); x0=null; });
-    document.addEventListener("visibilitychange",()=>document.hidden?pause():resume());
-    if(reduce) dots.forEach(d=>d.querySelector("i").style.animation="none");
-    restart();
+    function reinicia(){ clearTimeout(timer); resta = TEMPO; if(!pausado && !reduz) roda(); }
+    function roda(){ inicio = Date.now(); timer = setTimeout(()=>mostra(atual+1, true), resta); }
+    function pausa(){ if(pausado) return; pausado = true; ficha.classList.add("pausada"); clearTimeout(timer); resta -= Date.now()-inicio; }
+    function volta(){ if(!pausado) return; pausado = false; ficha.classList.remove("pausada"); if(!reduz) roda(); }
+    abas.addEventListener("click", e => { const b = e.target.closest(".aba"); if(b) mostra([...abas.children].indexOf(b)); });
+    abas.addEventListener("keydown", e => { if(e.key==="ArrowRight"||e.key==="ArrowLeft"){ mostra(atual + (e.key==="ArrowRight"?1:-1)); abas.children[atual].focus(); } });
+    ficha.addEventListener("mouseenter", pausa); ficha.addEventListener("mouseleave", volta);
+    ficha.addEventListener("focusin", pausa); ficha.addEventListener("focusout", volta);
+    let x0 = null;
+    ficha.querySelector(".ficha-foto").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, {passive:true});
+    ficha.querySelector(".ficha-foto").addEventListener("touchend", e => { if(x0===null) return; const dx = e.changedTouches[0].clientX - x0; if(Math.abs(dx)>45) mostra(atual + (dx<0?1:-1)); x0 = null; });
+    document.addEventListener("visibilitychange", ()=> document.hidden ? pausa() : volta());
+    if(reduz) abas.querySelectorAll(".aba i").forEach(i=>i.style.display="none");
+    mostra(0);
   })();
 
-  // Produtos
-  const foto = (id,i,thumb) => `assets/catalogo/${thumb?"thumb/":""}${id}-${i}.jpg`;
-  const grid = document.getElementById("products");
-  const msgFor = name => `Olá! Vim pelo site da ZIPLASER e tenho interesse em: ${name}.`;
-  grid.innerHTML = CATALOG.map((p,k) => `
-    <article class="card reveal" data-cat="${p.group}" data-k="${k}">
-      <button class="card-media" aria-label="Ver fotos de ${p.name}">
-        <span class="card-cat">${p.group}</span>
-        ${p.n>1?`<span class="card-count">${p.n} fotos</span>`:""}
-        <img src="${foto(p.id,1,1)}" alt="${p.name} com gravação a laser ZIPLASER" loading="lazy">
-        ${p.n>1?`<img class="alt" src="${foto(p.id,2,1)}" alt="" loading="lazy">`:""}
+  // ===== Catálogo =====
+  const grade = document.getElementById("grade");
+  grade.innerHTML = CATALOG.map((p,k) => `
+    <div class="item" data-grupo="${p.group}">
+      <button class="placa" data-k="${k}" aria-label="Ver ${p.n} foto${p.n>1?"s":""} de ${p.name}">
+        <img src="${foto(p.id,1,1)}" alt="" loading="lazy" width="560" height="560">${p.n>1?`<img src="${foto(p.id,2,1)}" alt="" loading="lazy" width="560" height="560">`:""}
       </button>
-      <div class="card-body">
-        <h3>${p.name}</h3>
-        <p>${p.desc}</p>
-        <a class="card-link" href="${waLink(msgFor(p.name))}" target="_blank" rel="noopener">Pedir pelo WhatsApp <svg><use href="#i-arrow"/></svg></a>
-      </div>
-    </article>`).join("") + `
-    <article class="card custom reveal" data-cat="Sob encomenda">
-      <div class="card-media">${ART.mais}</div>
-      <div class="card-body">
-        <h3>Tem outra peça em mente?</h3>
-        <p>Gravamos em diversos outros materiais e objetos. Conte sua ideia e a gente avalia.</p>
-        <a class="card-link" href="${waLink("Olá! Vim pelo site da ZIPLASER e queria saber se vocês gravam em outro tipo de peça.")}" target="_blank" rel="noopener">Consultar <svg><use href="#i-arrow"/></svg></a>
-      </div>
-    </article>`;
-
-  // Filtros
-  const groups = [...new Set(CATALOG.map(p => p.group))];
-  const filters = document.getElementById("filters");
-  const countOf = g => g==="Todos" ? CATALOG.length : CATALOG.filter(p=>p.group===g).length;
-  filters.innerHTML = ["Todos",...groups].map((c,i) => `<button class="chip${i===0?" active":""}" data-cat="${c}">${c} <small>${countOf(c)}</small></button>`).join("");
-  filters.addEventListener("click", e => {
-    const b = e.target.closest(".chip"); if(!b) return;
-    filters.querySelectorAll(".chip").forEach(x => x.classList.toggle("active", x===b));
-    grid.querySelectorAll(".card").forEach(card => {
-      const show = b.dataset.cat==="Todos" || card.dataset.cat===b.dataset.cat || card.classList.contains("custom");
-      card.classList.toggle("hide", !show);
-    });
+      <h3>${p.name}</h3>
+      <span class="meta">${p.n} foto${p.n>1?"s":""}</span>
+    </div>`).join("") + `
+    <div class="item outro" data-grupo="*">
+      <h3>Outra peça?</h3>
+      <p>Gravamos em muitos outros materiais. Conte sua ideia.</p>
+      <a class="link" href="${waLink("Olá! Vim pelo site da ZIPLASER e queria saber se vocês gravam em outro tipo de peça.")}" target="_blank" rel="noopener">Perguntar no WhatsApp</a>
+    </div>`;
+  const grupos = [...new Set(CATALOG.map(p=>p.group))];
+  const filtros = document.getElementById("filtros");
+  const conta = g => g==="Todos" ? CATALOG.length : CATALOG.filter(p=>p.group===g).length;
+  filtros.innerHTML = ["Todos",...grupos].map((g,i)=>`<button class="filtro" aria-pressed="${i===0}" data-g="${g}">${g}<small>${conta(g)}</small></button>`).join("");
+  filtros.addEventListener("click", e => {
+    const b = e.target.closest(".filtro"); if(!b) return;
+    filtros.querySelectorAll(".filtro").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    const g = b.dataset.g;
+    grade.querySelectorAll(".item").forEach(it => it.hidden = !(g==="Todos" || it.dataset.grupo===g || it.dataset.grupo==="*"));
   });
 
-  // Galeria (modal)
-  const gal = document.getElementById("gallery");
-  let gp=null, gi=1, lastFocus=null;
-  function galShow(i){
+  // ===== Galeria =====
+  const gal = document.getElementById("galeria");
+  let gp = null, gi = 1, voltaFoco = null;
+  function galMostra(i){
     gi = (i-1+gp.n)%gp.n+1;
-    const img = gal.querySelector(".gal-main img");
-    img.classList.add("swap");
-    const nimg = new Image(); nimg.src = foto(gp.id,gi,0);
-    nimg.onload = () => { img.src = nimg.src; img.classList.remove("swap"); };
-    img.alt = `${gp.name}: foto ${gi} de ${gp.n}`;
-    gal.querySelector(".gal-pos").textContent = `${gi} / ${gp.n}`;
-    gal.querySelectorAll(".gal-thumbs button").forEach((t,j)=>t.classList.toggle("on", j+1===gi));
-    const on = gal.querySelector(".gal-thumbs .on"); if(on) on.scrollIntoView({block:"nearest",inline:"center"});
+    const im = gal.querySelector(".gal-foto img");
+    im.classList.add("troca");
+    const n = new Image(); n.src = foto(gp.id,gi,0);
+    n.onload = () => { im.src = n.src; im.classList.remove("troca"); };
+    im.alt = `${gp.name}, foto ${gi} de ${gp.n}`;
+    gal.querySelector(".gal-pos").textContent = `${gi} de ${gp.n}`;
+    gal.querySelectorAll(".gal-mini button").forEach((b,j)=>b.setAttribute("aria-current", j+1===gi));
   }
-  function galOpen(k){
-    gp = CATALOG[k]; lastFocus = document.activeElement;
-    gal.querySelector(".gal-group").textContent = gp.group;
+  function galAbre(k){
+    gp = CATALOG[k]; voltaFoco = document.activeElement;
+    gal.querySelector(".grupo").textContent = gp.group;
     gal.querySelector("h3").textContent = gp.name;
-    gal.querySelector(".gal-desc").textContent = gp.desc;
-    gal.querySelector(".gal-wa").href = waLink(msgFor(gp.name));
-    gal.querySelector(".gal-thumbs").innerHTML = Array.from({length:gp.n},(_,j)=>`<button aria-label="Foto ${j+1}"><img src="${foto(gp.id,j+1,1)}" alt=""></button>`).join("");
-    gal.querySelector(".gal-thumbs").style.display = gp.n>1 ? "" : "none";
-    gal.querySelectorAll(".gal-nav").forEach(b=>b.style.display = gp.n>1 ? "" : "none");
-    gal.querySelector(".gal-main img").src = foto(gp.id,1,1);
-    gal.hidden = false; document.body.classList.add("noscroll");
-    requestAnimationFrame(()=>gal.classList.add("open"));
-    galShow(1); gal.querySelector(".gal-close").focus();
+    gal.querySelector(".desc").textContent = gp.desc;
+    gal.querySelector(".gal-wa").href = waLink(pedido(gp.name));
+    const mini = gal.querySelector(".gal-mini");
+    mini.innerHTML = Array.from({length:gp.n},(_,j)=>`<button aria-label="Foto ${j+1}"><img src="${foto(gp.id,j+1,1)}" alt=""></button>`).join("");
+    mini.style.display = gp.n>1 ? "" : "none";
+    gal.querySelectorAll(".gal-seta").forEach(b=>b.style.display = gp.n>1 ? "" : "none");
+    gal.querySelector(".gal-foto img").src = foto(gp.id,1,1);
+    gal.hidden = false; document.body.classList.add("travado");
+    galMostra(1); gal.querySelector(".gal-fechar").focus();
   }
-  function galClose(){
-    gal.classList.remove("open"); document.body.classList.remove("noscroll");
-    setTimeout(()=>{ gal.hidden = true; }, 250);
-    if(lastFocus) lastFocus.focus();
-  }
-  grid.addEventListener("click", e => { const m = e.target.closest(".card-media"); const c = e.target.closest(".card"); if(m && c && c.dataset.k) galOpen(+c.dataset.k); });
+  function galFecha(){ gal.hidden = true; document.body.classList.remove("travado"); if(voltaFoco) voltaFoco.focus(); }
+  grade.addEventListener("click", e => { const b = e.target.closest(".placa"); if(b) galAbre(+b.dataset.k); });
   gal.addEventListener("click", e => {
-    if(e.target===gal || e.target.closest(".gal-close")) return galClose();
-    if(e.target.closest(".gal-prev")) return galShow(gi-1);
-    if(e.target.closest(".gal-next")) return galShow(gi+1);
-    const t = e.target.closest(".gal-thumbs button"); if(t) galShow([...t.parentNode.children].indexOf(t)+1);
+    if(e.target===gal || e.target.closest(".gal-fechar")) return galFecha();
+    if(e.target.closest(".gal-ant")) return galMostra(gi-1);
+    if(e.target.closest(".gal-prox")) return galMostra(gi+1);
+    const t = e.target.closest(".gal-mini button"); if(t) galMostra([...t.parentNode.children].indexOf(t)+1);
   });
   document.addEventListener("keydown", e => {
     if(gal.hidden) return;
-    if(e.key==="Escape") galClose(); else if(e.key==="ArrowLeft") galShow(gi-1); else if(e.key==="ArrowRight") galShow(gi+1);
+    if(e.key==="Escape") galFecha();
+    else if(e.key==="ArrowLeft") galMostra(gi-1);
+    else if(e.key==="ArrowRight") galMostra(gi+1);
+    else if(e.key==="Tab"){ // mantém o foco dentro da galeria
+      const f = [...gal.querySelectorAll("button,a")].filter(x=>x.offsetParent!==null);
+      if(e.shiftKey && document.activeElement===f[0]){ e.preventDefault(); f[f.length-1].focus(); }
+      else if(!e.shiftKey && document.activeElement===f[f.length-1]){ e.preventDefault(); f[0].focus(); }
+    }
   });
-  let gx=null;
-  gal.querySelector(".gal-main").addEventListener("touchstart",e=>{gx=e.touches[0].clientX;},{passive:true});
-  gal.querySelector(".gal-main").addEventListener("touchend",e=>{ if(gx===null) return; const d=e.changedTouches[0].clientX-gx; if(Math.abs(d)>40) galShow(gi+(d<0?1:-1)); gx=null; });
+  let gx = null;
+  gal.querySelector(".gal-foto").addEventListener("touchstart", e=>{ gx = e.touches[0].clientX; }, {passive:true});
+  gal.querySelector(".gal-foto").addEventListener("touchend", e=>{ if(gx===null) return; const d = e.changedTouches[0].clientX-gx; if(Math.abs(d)>40) galMostra(gi+(d<0?1:-1)); gx = null; });
 
-  // Links de WhatsApp
-  document.querySelectorAll("a.wa").forEach(a => {
-    a.href = waLink(a.dataset.msg);
-    a.target = "_blank"; a.rel = "noopener";
-  });
+  // Menu no celular
+  const menu = document.getElementById("menu"), nav = document.getElementById("nav");
+  menu.addEventListener("click", () => { const a = nav.classList.toggle("aberto"); menu.setAttribute("aria-expanded", a); });
+  nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => { nav.classList.remove("aberto"); menu.setAttribute("aria-expanded", false); }));
 
-  // Faixa animada
-  const words = ["Canecas","Copos","Garrafas","Canetas","Talheres de madeira","Tábuas","Chaveiros","Frescobol","Laser UV","Alta precisão"];
-  const row = words.map(w => `<span>${w}</span>`).join("");
-  document.getElementById("marquee").innerHTML = row + row;
-
-  // Menu mobile
-  const toggle = document.getElementById("menuToggle"), links = document.getElementById("navLinks");
-  toggle.addEventListener("click", () => links.classList.toggle("open"));
-  links.querySelectorAll("a").forEach(a => a.addEventListener("click", () => links.classList.remove("open")));
-
-  // Header ao rolar
-  const header = document.querySelector("header");
-  addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 10), {passive:true});
-
-  // Revelar ao rolar
-  const io = "IntersectionObserver" in window ? new IntersectionObserver(es => {
-    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, {threshold:.12}) : null;
-  document.querySelectorAll(".reveal").forEach(el => io ? io.observe(el) : el.classList.add("in"));
-
-  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("ano").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
