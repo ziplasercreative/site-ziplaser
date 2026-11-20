@@ -110,7 +110,9 @@
   .cabeca p{color:var(--texto-2);font-size:var(--t1);line-height:1.45;justify-self:end;max-width:30ch}
 
   /* Catálogo */
-  .filtros{display:flex;flex-wrap:wrap;gap:6px 26px;margin-bottom:40px;border-bottom:1px solid var(--bancada)}
+  .filtros{display:flex;flex-wrap:nowrap;gap:30px;margin-bottom:40px;border-bottom:1px solid var(--bancada);overflow-x:auto;scrollbar-width:none}
+  .filtros::-webkit-scrollbar{display:none}
+  .filtro{white-space:nowrap;flex:none}
   .filtro{background:none;border:0;padding:10px 0 12px;font-weight:500;cursor:pointer;color:var(--texto-2);position:relative}
   .filtro small{font-size:12px;margin-left:3px;color:#8a8a8a}
   .filtro[aria-pressed="true"]{color:var(--preto)}
@@ -231,6 +233,7 @@
     .menu{display:block}
     .secao,.contato{padding:80px 0}
     .grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+    .filtros{gap:22px;margin-right:-28px;padding-right:28px}
     .mat-grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
     .mat h3{font-size:var(--t0)}.mat p{font-size:14px}
     .passos{grid-template-columns:1fr;gap:36px}
@@ -440,17 +443,17 @@
   ];
 
   const CATALOG = [
-    {"id": "caneca-canudo-600", "group": "Canecas", "name": "Caneca térmica com canudo 600 ml", "desc": "Caneca térmica com tampa e canudo de inox, em 6 cores. A gravação revela o inox e fica com brilho metálico.", "n": 6},
-    {"id": "caneca-350", "group": "Canecas", "name": "Caneca térmica 350 ml", "desc": "Caneca térmica de inox com tampa, ótima para café no escritório. Gravação fina e elegante.", "n": 2},
-    {"id": "copo-pet-360", "group": "Copos", "name": "Copo PET 360 ml", "desc": "Copo de PET transparente e resistente, ideal para festas, eventos e bares. A gravação fica branca e fosca, sem tinta.", "n": 3},
-    {"id": "copo-papel-180", "group": "Copos", "name": "Copo de papel 180 ml", "desc": "Copo de papel para café e chá, com ou sem tampa. A gravação fica em tom marrom queimado direto no papel. Ideal para cafeterias e eventos.", "n": 4},
-    {"id": "copo-320", "group": "Copos", "name": "Copo térmico inox 320 ml", "desc": "Copo inox de parede dupla com tampa. Gravação delicada, perfeita para presentes.", "n": 1},
-    {"id": "copo-300", "group": "Copos", "name": "Copo térmico 300 ml", "desc": "Copo térmico compacto com tampa, mantém a bebida gelada por mais tempo.", "n": 1},
-    {"id": "copo-abridor-500", "group": "Copos", "name": "Copo térmico 500 ml com abridor", "desc": "Copo térmico com tampa e abridor de garrafas embutido. Disponível em várias cores.", "n": 4},
-    {"id": "copo-bambu-500", "group": "Copos", "name": "Copo de bambu 500 ml", "desc": "Copo com revestimento de bambu e interior de inox. A gravação fica queimada direto na madeira.", "n": 1},
-    {"id": "copo-inox-800", "group": "Copos", "name": "Copo inox 800 ml com alça", "desc": "Copo térmico de inox escovado com alça e tampa. Grande, resistente e cheio de estilo.", "n": 1},
-    {"id": "copo-125l", "group": "Copos", "name": "Copo térmico 1,25 L", "desc": "Copo térmico de 1,25 litro com alça, para quem não larga a hidratação.", "n": 1},
-    {"id": "coqueteleira-700", "group": "Copos", "name": "Coqueteleira térmica 700 ml", "desc": "Coqueteleira de inox para shakes e drinks, em várias cores.", "n": 4},
+{"id": "caneca-canudo-600", "group": "Copos e canecas", "name": "Caneca térmica com canudo 600 ml", "desc": "Caneca térmica com tampa e canudo de inox, em 6 cores. A gravação revela o inox e fica com brilho metálico.", "n": 6},
+    {"id": "caneca-350", "group": "Copos e canecas", "name": "Caneca térmica 350 ml", "desc": "Caneca térmica de inox com tampa, ótima para café no escritório. Gravação fina e elegante.", "n": 2},
+    {"id": "copo-pet-360", "group": "Copos e canecas", "name": "Copo PET 360 ml", "desc": "Copo de PET transparente e resistente, ideal para festas, eventos e bares. A gravação fica branca e fosca, sem tinta.", "n": 3},
+    {"id": "copo-papel-180", "group": "Copos e canecas", "name": "Copo de papel 180 ml", "desc": "Copo de papel para café e chá, com ou sem tampa. A gravação fica em tom marrom queimado direto no papel. Ideal para cafeterias e eventos.", "n": 4},
+    {"id": "copo-320", "group": "Copos e canecas", "name": "Copo térmico inox 320 ml", "desc": "Copo inox de parede dupla com tampa. Gravação delicada, perfeita para presentes.", "n": 1},
+    {"id": "copo-300", "group": "Copos e canecas", "name": "Copo térmico 300 ml", "desc": "Copo térmico compacto com tampa, mantém a bebida gelada por mais tempo.", "n": 1},
+    {"id": "copo-abridor-500", "group": "Copos e canecas", "name": "Copo térmico 500 ml com abridor", "desc": "Copo térmico com tampa e abridor de garrafas embutido. Disponível em várias cores.", "n": 4},
+    {"id": "copo-bambu-500", "group": "Copos e canecas", "name": "Copo de bambu 500 ml", "desc": "Copo com revestimento de bambu e interior de inox. A gravação fica queimada direto na madeira.", "n": 1},
+    {"id": "copo-inox-800", "group": "Copos e canecas", "name": "Copo inox 800 ml com alça", "desc": "Copo térmico de inox escovado com alça e tampa. Grande, resistente e cheio de estilo.", "n": 1},
+    {"id": "copo-125l", "group": "Copos e canecas", "name": "Copo térmico 1,25 L", "desc": "Copo térmico de 1,25 litro com alça, para quem não larga a hidratação.", "n": 1},
+    {"id": "coqueteleira-700", "group": "Copos e canecas", "name": "Coqueteleira térmica 700 ml", "desc": "Coqueteleira de inox para shakes e drinks, em várias cores.", "n": 4},
     {"id": "garrafa-950", "group": "Garrafas", "name": "Garrafa térmica 950 ml", "desc": "Garrafa de inox com tampa e alça, em 6 cores. A gravação revela o inox e não sai com o tempo.", "n": 6},
     {"id": "garrafa-750", "group": "Garrafas", "name": "Garrafa térmica 750 ml", "desc": "Garrafa térmica de inox com tampa e alça, leve para o dia a dia.", "n": 3},
     {"id": "garrafa-900-suporte", "group": "Garrafas", "name": "Garrafa 900 ml com suporte de celular", "desc": "Garrafa térmica com tampa que vira suporte magnético para o celular.", "n": 2},
@@ -460,26 +463,26 @@
     {"id": "garrafa-600", "group": "Garrafas", "name": "Garrafa térmica 600 ml", "desc": "Garrafa térmica compacta, cabe em qualquer mochila.", "n": 1},
     {"id": "copo-900", "group": "Garrafas", "name": "Copo térmico 900 ml com alça", "desc": "Copo térmico grande, com alça e tampa, para levar para todo lado.", "n": 2},
     {"id": "copo-800-alca", "group": "Garrafas", "name": "Copo térmico 800 ml", "desc": "Copo térmico de 800 ml com alça retrátil e canudo.", "n": 1},
-    {"id": "caneta-metalica", "group": "Canetas", "name": "Caneta metálica", "desc": "Caneta de metal em várias cores, com gravação de alta precisão. Perfeita para brindes corporativos.", "n": 15},
-    {"id": "caneta-ecologica", "group": "Canetas", "name": "Caneta ecológica", "desc": "Caneta com corpo em papelão e gravação direto no material. Sustentável e com ótimo custo para brindes.", "n": 8},
-    {"id": "caneta-metal-premium", "group": "Canetas", "name": "Caneta metal premium", "desc": "Caneta de metal com acabamento fosco e visual minimalista.", "n": 3},
-    {"id": "caneta-touch-premium", "group": "Canetas", "name": "Caneta touch premium", "desc": "Caneta de metal com ponta touch para celular e detalhes em rosé.", "n": 3},
-    {"id": "caneta-touch", "group": "Canetas", "name": "Caneta touch", "desc": "Caneta com ponta touch emborrachada, ótima para tablet e celular.", "n": 2},
-    {"id": "caneta-kraft", "group": "Canetas", "name": "Caneta ecológica de bambu", "desc": "Caneta com corpo de bambu e gravação queimada na madeira.", "n": 1},
-    {"id": "chaveiro-abridor", "group": "Chaveiros", "name": "Chaveiro abridor", "desc": "Chaveiro de alumínio com abridor de garrafas, em 13 cores. Grava logo, nome e até QR Code.", "n": 13},
-    {"id": "chaveiro-pet", "group": "Chaveiros", "name": "Chaveiro pet (osso)", "desc": "Plaquinha em formato de osso com moldura colorida, em 3 cores. Grave o nome do pet e o contato do tutor ou a sua logo.", "n": 4},
+    {"id": "caneta-metalica", "group": "Escritório", "name": "Caneta metálica", "desc": "Caneta de metal em várias cores, com gravação de alta precisão. Perfeita para brindes corporativos.", "n": 15},
+    {"id": "caneta-ecologica", "group": "Escritório", "name": "Caneta ecológica", "desc": "Caneta com corpo em papelão e gravação direto no material. Sustentável e com ótimo custo para brindes.", "n": 8},
+    {"id": "caneta-metal-premium", "group": "Escritório", "name": "Caneta metal premium", "desc": "Caneta de metal com acabamento fosco e visual minimalista.", "n": 3},
+    {"id": "caneta-touch-premium", "group": "Escritório", "name": "Caneta touch premium", "desc": "Caneta de metal com ponta touch para celular e detalhes em rosé.", "n": 3},
+    {"id": "caneta-touch", "group": "Escritório", "name": "Caneta touch", "desc": "Caneta com ponta touch emborrachada, ótima para tablet e celular.", "n": 2},
+    {"id": "caneta-kraft", "group": "Escritório", "name": "Caneta ecológica de bambu", "desc": "Caneta com corpo de bambu e gravação queimada na madeira.", "n": 1},
     {"id": "cartao-metalico", "group": "Escritório", "name": "Cartão de visita metálico", "desc": "Cartão de visita em metal com gravação a laser. Disponível em 10 cores.", "n": 11},
     {"id": "kit-escritorio", "group": "Escritório", "name": "Kit escritório em bambu", "desc": "Caderno, caneta e chaveiro de bambu numa caixa kraft. Presente corporativo completo.", "n": 1},
-    {"id": "tabua-retangular", "group": "Cozinha e churrasco", "name": "Tábua de bambu retangular", "desc": "Tábua de bambu para frios e petiscos, com gravação queimada na madeira.", "n": 2},
-    {"id": "tabua-retangular-p", "group": "Cozinha e churrasco", "name": "Tábua de bambu retangular pequena", "desc": "Versão compacta da tábua de bambu, ótima para servir aperitivos.", "n": 2},
-    {"id": "tabua-redonda", "group": "Cozinha e churrasco", "name": "Tábua de bambu redonda", "desc": "Tábua redonda com divisória para molhos e petiscos.", "n": 2},
-    {"id": "tabua-4-divisoes", "group": "Cozinha e churrasco", "name": "Tábua de bambu com 4 divisões", "desc": "Tábua quadrada com 4 divisões, perfeita para tábuas de frios.", "n": 2},
-    {"id": "garra-churrasco", "group": "Cozinha e churrasco", "name": "Garra para churrasco", "desc": "Garra de inox com cabo de madeira gravado. Presente certeiro para quem ama churrasco.", "n": 1},
-    {"id": "talheres-madeira", "group": "Cozinha e churrasco", "name": "Talheres de madeira", "desc": "Garfos, facas e colheres de madeira com sua logo. Ideais para confeitarias e eventos.", "n": 2},
-    {"id": "lancheira", "group": "Cozinha e churrasco", "name": "Lancheira com tampa de bambu", "desc": "Lancheira de 700 ml com tampa de bambu gravada, em 4 cores.", "n": 4},
+    {"id": "tabua-retangular", "group": "Cozinha", "name": "Tábua de bambu retangular", "desc": "Tábua de bambu para frios e petiscos, com gravação queimada na madeira.", "n": 2},
+    {"id": "tabua-retangular-p", "group": "Cozinha", "name": "Tábua de bambu retangular pequena", "desc": "Versão compacta da tábua de bambu, ótima para servir aperitivos.", "n": 2},
+    {"id": "tabua-redonda", "group": "Cozinha", "name": "Tábua de bambu redonda", "desc": "Tábua redonda com divisória para molhos e petiscos.", "n": 2},
+    {"id": "tabua-4-divisoes", "group": "Cozinha", "name": "Tábua de bambu com 4 divisões", "desc": "Tábua quadrada com 4 divisões, perfeita para tábuas de frios.", "n": 2},
+    {"id": "garra-churrasco", "group": "Cozinha", "name": "Garra para churrasco", "desc": "Garra de inox com cabo de madeira gravado. Presente certeiro para quem ama churrasco.", "n": 1},
+    {"id": "talheres-madeira", "group": "Cozinha", "name": "Talheres de madeira", "desc": "Garfos, facas e colheres de madeira com sua logo. Ideais para confeitarias e eventos.", "n": 2},
+    {"id": "lancheira", "group": "Cozinha", "name": "Lancheira com tampa de bambu", "desc": "Lancheira de 700 ml com tampa de bambu gravada, em 4 cores.", "n": 4},
+    {"id": "chaveiro-abridor", "group": "Acessórios", "name": "Chaveiro abridor", "desc": "Chaveiro de alumínio com abridor de garrafas, em 13 cores. Grava logo, nome e até QR Code.", "n": 13},
+    {"id": "chaveiro-pet", "group": "Acessórios", "name": "Chaveiro pet (osso)", "desc": "Plaquinha em formato de osso com moldura colorida, em 3 cores. Grave o nome do pet e o contato do tutor ou a sua logo.", "n": 4},
     {"id": "carteira", "group": "Acessórios", "name": "Carteira personalizada", "desc": "Carteira com gravação em baixo-relevo: discreta, sofisticada e feita para durar.", "n": 1},
-    {"id": "frescobol", "group": "Esporte", "name": "Raquete de frescobol", "desc": "Raquete de madeira com sua arte, nome ou marca gravados.", "n": 3}
-  ];
+    {"id": "frescobol", "group": "Acessórios", "name": "Raquete de frescobol", "desc": "Raquete de madeira com sua arte, nome ou marca gravados.", "n": 3}
+];
 
   const foto = (id,i,mini) => `assets/catalogo/${mini?"thumb/":""}${id}-${i}.jpg`;
 
