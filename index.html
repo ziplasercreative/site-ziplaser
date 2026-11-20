@@ -170,6 +170,46 @@
   .card.custom .card-link{color:var(--white)}
   .card.custom .card-cat{background:var(--orange)}
 
+
+  /* Catálogo: contagem, foto alternativa e galeria */
+  .chip small{font-size:11px;opacity:.55;margin-left:4px}
+  button.card-media{border:0;padding:0;width:100%;cursor:zoom-in;font:inherit;color:inherit;display:block}
+  .card-media img.alt{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
+  .card:hover .card-media img.alt{opacity:1}
+  .card-count{position:absolute;top:16px;right:16px;z-index:2;background:var(--black);color:var(--white);font-size:11px;font-weight:600;padding:6px 10px;border-radius:999px}
+  .card-cat{z-index:2}
+  body.noscroll{overflow:hidden}
+  .gal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);display:grid;place-items:center;padding:24px;opacity:0;transition:opacity .25s ease}
+  .gal[hidden]{display:none}
+  .gal.open{opacity:1}
+  .gal-box{position:relative;background:var(--white);border-radius:28px;width:min(1080px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-columns:1.25fr 1fr;overflow:hidden;transform:translateY(16px) scale(.98);transition:transform .3s ease}
+  .gal.open .gal-box{transform:none}
+  .gal-main{position:relative;background:#F4F4F5;aspect-ratio:1/1;max-height:calc(100vh - 48px)}
+  .gal-main img{width:100%;height:100%;object-fit:contain;transition:opacity .2s}
+  .gal-main img.swap{opacity:.35}
+  .gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:var(--white);box-shadow:0 6px 18px -8px rgba(0,0,0,.35);display:grid;place-items:center;cursor:pointer}
+  .gal-nav svg{width:18px;height:18px}
+  .gal-prev{left:16px}.gal-prev svg{transform:rotate(180deg)}
+  .gal-next{right:16px}
+  .gal-pos{position:absolute;left:16px;bottom:16px;background:var(--white);font-size:12px;font-weight:600;padding:6px 11px;border-radius:999px}
+  .gal-close{position:absolute;top:14px;right:14px;z-index:3;width:42px;height:42px;border-radius:50%;border:0;background:var(--gray);cursor:pointer;display:grid;place-items:center}
+  .gal-close svg{width:18px;height:18px}
+  .gal-info{min-width:0;padding:40px 36px 32px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+  .gal-info h3{font-size:clamp(24px,2.6vw,32px);padding-right:40px}
+  .gal-desc{color:var(--muted)}
+  .gal-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin:6px 0 8px}
+  .gal-thumbs button{border:2px solid transparent;border-radius:12px;padding:0;background:#F4F4F5;cursor:pointer;overflow:hidden;aspect-ratio:1/1}
+  .gal-thumbs button.on{border-color:var(--orange)}
+  .gal-thumbs img{width:100%;height:100%;object-fit:cover}
+  .gal-wa{align-self:flex-start}
+  .gal-note{color:var(--muted);font-size:12.5px}
+  @media (max-width:820px){
+    .gal{padding:0;place-items:end center}
+    .gal-box{grid-template-columns:minmax(0,1fr);width:100%;border-radius:24px 24px 0 0;max-height:94vh;overflow:auto}
+    .gal-main{aspect-ratio:1/1;max-height:none}
+    .gal-info{padding:22px 22px 28px;overflow:visible}
+    .gal-thumbs{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:60px;overflow-x:auto}
+  }
   /* Diferenciais */
   .features{background:var(--gray)}
   .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -351,7 +391,7 @@
           <span class="eyebrow">Portfólio</span>
           <h2>Nossos produtos</h2>
         </div>
-        <p>Escolha a peça, mande sua ideia e a gente grava. Clique em qualquer produto para conversar com a gente pelo WhatsApp.</p>
+        <p>Mais de 35 modelos em várias cores. Clique na foto para ver a galeria e peça pelo WhatsApp.</p>
       </div>
       <div class="filters reveal" id="filters"></div>
       <div class="products" id="products"></div>
@@ -471,6 +511,26 @@
   </div>
 </footer>
 
+<div class="gal" id="gallery" role="dialog" aria-modal="true" aria-label="Fotos do produto" hidden>
+  <div class="gal-box">
+    <button class="gal-close" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="gal-main">
+      <img src="" alt="">
+      <button class="gal-nav gal-prev" aria-label="Foto anterior"><svg><use href="#i-arrow"/></svg></button>
+      <button class="gal-nav gal-next" aria-label="Próxima foto"><svg><use href="#i-arrow"/></svg></button>
+      <span class="gal-pos"></span>
+    </div>
+    <div class="gal-info">
+      <span class="eyebrow gal-group"></span>
+      <h3></h3>
+      <p class="gal-desc"></p>
+      <div class="gal-thumbs"></div>
+      <a class="btn btn-orange gal-wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Pedir pelo WhatsApp</a>
+      <small class="gal-note">Fotos ilustrativas com a logo ZIPLASER. Gravamos a sua logo, nome ou arte.</small>
+    </div>
+  </div>
+</div>
+
 <a class="wa-float wa" data-msg="Olá! Vim pelo site da ZIPLASER e tenho uma dúvida." href="#" aria-label="Conversar no WhatsApp" style="color:#000"><svg><use href="#i-wa"/></svg></a>
 
 <script>
@@ -479,23 +539,45 @@
 
   // Para adicionar produtos, basta incluir novos itens nesta lista.
   // Para usar uma foto, troque "art" por: photo: "data:image/jpeg;base64,..." (ou o caminho da imagem).
-  const PRODUCTS = [
-    { cat:"Copos e garrafas", name:"Caneca térmica com canudo", desc:"Caneca térmica de 600 ml com tampa e canudo. A gravação revela o inox e fica com brilho metálico.", photo:"assets/produtos/canecas.jpg" },
-    { cat:"Copos e garrafas", name:"Copo térmico inox", desc:"Copo inox de parede dupla, 320 ml. Gravação fina e elegante, perfeita para presentes.", photo:"assets/produtos/copos.jpg" },
-    { cat:"Copos e garrafas", name:"Garrafa térmica inox", desc:"Garrafa térmica de 950 ml, ideal para treino e para o dia a dia, com sua marca ou seu nome.", photo:"assets/produtos/garrafas.jpg" },
-    { cat:"Escritório", name:"Caneta metálica", desc:"Caneta de metal em 11 cores, com gravação de alta precisão. Nomes e logos com traço fino, perfeitos para brindes.", photo:"assets/produtos/canetas.jpg" },
-    { cat:"Escritório", name:"Caneta ecológica", desc:"Caneta com corpo em papelão e gravação direto no material. Sustentável e com ótimo custo para brindes.", photo:"assets/produtos/caneta-ecologica.jpg" },
-    { cat:"Escritório", name:"Kit escritório em bambu", desc:"Caderno, caneta e chaveiro de bambu numa caixa kraft. Um presente corporativo completo.", photo:"assets/produtos/kit-escritorio.jpg" },
-    { cat:"Escritório", name:"Cartão de visita metálico", desc:"Cartão de visita em metal, com gravação a laser. Disponível em várias cores.", photo:"assets/produtos/cartao-metalico.jpg" },
-    { cat:"Cozinha e churrasco", name:"Talheres de madeira", desc:"Garfos, facas e colheres de madeira com sua logo. Ideais para confeitarias, eventos e delivery.", photo:"assets/produtos/talheres.jpg" },
-    { cat:"Cozinha e churrasco", name:"Tábua de bambu", desc:"Tábua de bambu para frios e petiscos, com gravação queimada direto na madeira.", photo:"assets/produtos/tabuas.jpg" },
-    { cat:"Cozinha e churrasco", name:"Garra para churrasco", desc:"Garra de inox com cabo de madeira gravado. Um presente certeiro para quem ama churrasco.", photo:"assets/produtos/churrasco.jpg" },
-    { cat:"Cozinha e churrasco", name:"Lancheira com tampa de bambu", desc:"Lancheira de 700 ml com tampa de bambu personalizada e elástico para fechar.", photo:"assets/produtos/lancheiras.jpg" },
-    { cat:"Acessórios", name:"Chaveiro abridor", desc:"Chaveiro de metal com abridor de garrafas, em várias cores. Grava logo, nome e até QR Code.", photo:"assets/produtos/chaveiros.jpg" },
-    { cat:"Acessórios", name:"Carteira personalizada", desc:"Carteira com gravação em baixo-relevo: discreta, sofisticada e feita para durar.", photo:"assets/produtos/carteiras.jpg" },
-    { cat:"Acessórios", name:"Tag pet", desc:"Plaquinha de identificação em formato de osso, com o nome do pet e o contato do tutor.", photo:"assets/produtos/tag-pet.jpg" },
-    { cat:"Esporte", name:"Raquete de frescobol", desc:"Raquete de madeira com sua arte, nome ou marca gravados, com acabamento caprichado.", photo:"assets/produtos/frescobol.jpg" },
-    { cat:"Sob encomenda", name:"Tem outra peça em mente?", desc:"Gravamos em diversos outros materiais e objetos. Conte sua ideia e a gente avalia.", art:"mais", custom:true }
+  // Catálogo: cada modelo tem n fotos em assets/catalogo/<id>-<n>.jpg (miniaturas em assets/catalogo/thumb/)
+  const CATALOG = [
+    {"id": "caneca-canudo-600", "group": "Canecas", "name": "Caneca térmica com canudo 600 ml", "desc": "Caneca térmica com tampa e canudo de inox, em 6 cores. A gravação revela o inox e fica com brilho metálico.", "n": 6},
+    {"id": "caneca-350", "group": "Canecas", "name": "Caneca térmica 350 ml", "desc": "Caneca térmica de inox com tampa, ótima para café no escritório. Gravação fina e elegante.", "n": 3},
+    {"id": "copo-320", "group": "Copos", "name": "Copo térmico inox 320 ml", "desc": "Copo inox de parede dupla com tampa. Gravação delicada, perfeita para presentes.", "n": 1},
+    {"id": "copo-300", "group": "Copos", "name": "Copo térmico 300 ml", "desc": "Copo térmico compacto com tampa, mantém a bebida gelada por mais tempo.", "n": 1},
+    {"id": "copo-abridor-500", "group": "Copos", "name": "Copo térmico 500 ml com abridor", "desc": "Copo térmico com tampa e abridor de garrafas embutido. Disponível em várias cores.", "n": 4},
+    {"id": "copo-bambu-500", "group": "Copos", "name": "Copo de bambu 500 ml", "desc": "Copo com revestimento de bambu e interior de inox. A gravação fica queimada direto na madeira.", "n": 1},
+    {"id": "copo-inox-800", "group": "Copos", "name": "Copo inox 800 ml com alça", "desc": "Copo térmico de inox escovado com alça e tampa. Grande, resistente e cheio de estilo.", "n": 1},
+    {"id": "copo-125l", "group": "Copos", "name": "Copo térmico 1,25 L", "desc": "Copo térmico de 1,25 litro com alça, para quem não larga a hidratação.", "n": 1},
+    {"id": "coqueteleira-700", "group": "Copos", "name": "Coqueteleira térmica 700 ml", "desc": "Coqueteleira de inox para shakes e drinks, em várias cores.", "n": 4},
+    {"id": "garrafa-950", "group": "Garrafas", "name": "Garrafa térmica 950 ml", "desc": "Garrafa de inox com tampa e alça, em 6 cores. A gravação revela o inox e não sai com o tempo.", "n": 6},
+    {"id": "garrafa-750", "group": "Garrafas", "name": "Garrafa térmica 750 ml", "desc": "Garrafa térmica de inox com tampa e alça, leve para o dia a dia.", "n": 3},
+    {"id": "garrafa-900-suporte", "group": "Garrafas", "name": "Garrafa 900 ml com suporte de celular", "desc": "Garrafa térmica com tampa que vira suporte magnético para o celular.", "n": 2},
+    {"id": "garrafa-alca-750", "group": "Garrafas", "name": "Garrafa térmica com alça 750 ml", "desc": "Garrafa térmica com alça na tampa, em várias cores.", "n": 3},
+    {"id": "squeeze-880", "group": "Garrafas", "name": "Squeeze inox 880 ml", "desc": "Squeeze de inox com bico, ideal para academia e esportes.", "n": 2},
+    {"id": "garrafa-inox-750", "group": "Garrafas", "name": "Garrafa inox 750 ml", "desc": "Garrafa de inox escovado em formato clássico. Gravação discreta e sofisticada.", "n": 1},
+    {"id": "garrafa-600", "group": "Garrafas", "name": "Garrafa térmica 600 ml", "desc": "Garrafa térmica compacta, cabe em qualquer mochila.", "n": 1},
+    {"id": "copo-900", "group": "Garrafas", "name": "Copo térmico 900 ml com alça", "desc": "Copo térmico grande, com alça e tampa, para levar para todo lado.", "n": 2},
+    {"id": "copo-800-alca", "group": "Garrafas", "name": "Copo térmico 800 ml", "desc": "Copo térmico de 800 ml com alça retrátil e canudo.", "n": 1},
+    {"id": "caneta-metalica", "group": "Canetas", "name": "Caneta metálica", "desc": "Caneta de metal em várias cores, com gravação de alta precisão. Perfeita para brindes corporativos.", "n": 15},
+    {"id": "caneta-ecologica", "group": "Canetas", "name": "Caneta ecológica", "desc": "Caneta com corpo em papelão e gravação direto no material. Sustentável e com ótimo custo para brindes.", "n": 8},
+    {"id": "caneta-metal-premium", "group": "Canetas", "name": "Caneta metal premium", "desc": "Caneta de metal com acabamento fosco e visual minimalista.", "n": 3},
+    {"id": "caneta-touch-premium", "group": "Canetas", "name": "Caneta touch premium", "desc": "Caneta de metal com ponta touch para celular e detalhes em rosé.", "n": 3},
+    {"id": "caneta-touch", "group": "Canetas", "name": "Caneta touch", "desc": "Caneta com ponta touch emborrachada, ótima para tablet e celular.", "n": 2},
+    {"id": "caneta-kraft", "group": "Canetas", "name": "Caneta ecológica de bambu", "desc": "Caneta com corpo de bambu e gravação queimada na madeira.", "n": 1},
+    {"id": "chaveiro-abridor", "group": "Chaveiros", "name": "Chaveiro abridor", "desc": "Chaveiro de alumínio com abridor de garrafas, em 13 cores. Grava logo, nome e até QR Code.", "n": 13},
+    {"id": "cartao-metalico", "group": "Escritório", "name": "Cartão de visita metálico", "desc": "Cartão de visita em metal com gravação a laser. Disponível em 10 cores.", "n": 11},
+    {"id": "kit-escritorio", "group": "Escritório", "name": "Kit escritório em bambu", "desc": "Caderno, caneta e chaveiro de bambu numa caixa kraft. Presente corporativo completo.", "n": 1},
+    {"id": "tabua-retangular", "group": "Cozinha e churrasco", "name": "Tábua de bambu retangular", "desc": "Tábua de bambu para frios e petiscos, com gravação queimada na madeira.", "n": 2},
+    {"id": "tabua-retangular-p", "group": "Cozinha e churrasco", "name": "Tábua de bambu retangular pequena", "desc": "Versão compacta da tábua de bambu, ótima para servir aperitivos.", "n": 2},
+    {"id": "tabua-redonda", "group": "Cozinha e churrasco", "name": "Tábua de bambu redonda", "desc": "Tábua redonda com divisória para molhos e petiscos.", "n": 2},
+    {"id": "tabua-4-divisoes", "group": "Cozinha e churrasco", "name": "Tábua de bambu com 4 divisões", "desc": "Tábua quadrada com 4 divisões, perfeita para tábuas de frios.", "n": 2},
+    {"id": "garra-churrasco", "group": "Cozinha e churrasco", "name": "Garra para churrasco", "desc": "Garra de inox com cabo de madeira gravado. Presente certeiro para quem ama churrasco.", "n": 1},
+    {"id": "talheres-madeira", "group": "Cozinha e churrasco", "name": "Talheres de madeira", "desc": "Garfos, facas e colheres de madeira com sua logo. Ideais para confeitarias e eventos.", "n": 2},
+    {"id": "lancheira", "group": "Cozinha e churrasco", "name": "Lancheira com tampa de bambu", "desc": "Lancheira de 700 ml com tampa de bambu gravada, em 4 cores.", "n": 4},
+    {"id": "carteira", "group": "Acessórios", "name": "Carteira personalizada", "desc": "Carteira com gravação em baixo-relevo: discreta, sofisticada e feita para durar.", "n": 1},
+    {"id": "tag-pet", "group": "Acessórios", "name": "Tag pet", "desc": "Plaquinha de identificação em formato de osso, com o nome do pet e o contato do tutor.", "n": 1},
+    {"id": "frescobol", "group": "Esporte", "name": "Raquete de frescobol", "desc": "Raquete de madeira com sua arte, nome ou marca gravados.", "n": 3}
   ];
 
   const ART = {
@@ -572,33 +654,93 @@
   })();
 
   // Produtos
+  const foto = (id,i,thumb) => `assets/catalogo/${thumb?"thumb/":""}${id}-${i}.jpg`;
   const grid = document.getElementById("products");
-  grid.innerHTML = PRODUCTS.map(p => {
-    const msg = p.custom
-      ? "Olá! Vim pelo site da ZIPLASER e queria saber se vocês gravam em outro tipo de peça."
-      : `Olá! Vim pelo site da ZIPLASER e tenho interesse em: ${p.name}.`;
-    const media = p.photo ? `<img src="${p.photo}" alt="${p.name}" loading="lazy">` : ART[p.art];
-    return `<article class="card reveal${p.custom ? " custom" : ""}" data-cat="${p.cat}">
-      <div class="card-media"><span class="card-cat">${p.cat}</span>${media}</div>
+  const msgFor = name => `Olá! Vim pelo site da ZIPLASER e tenho interesse em: ${name}.`;
+  grid.innerHTML = CATALOG.map((p,k) => `
+    <article class="card reveal" data-cat="${p.group}" data-k="${k}">
+      <button class="card-media" aria-label="Ver fotos de ${p.name}">
+        <span class="card-cat">${p.group}</span>
+        ${p.n>1?`<span class="card-count">${p.n} fotos</span>`:""}
+        <img src="${foto(p.id,1,1)}" alt="${p.name} com gravação a laser ZIPLASER" loading="lazy">
+        ${p.n>1?`<img class="alt" src="${foto(p.id,2,1)}" alt="" loading="lazy">`:""}
+      </button>
       <div class="card-body">
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
-        <a class="card-link" href="${waLink(msg)}" target="_blank" rel="noopener">${p.custom ? "Consultar" : "Pedir pelo WhatsApp"} <svg><use href="#i-arrow"/></svg></a>
+        <a class="card-link" href="${waLink(msgFor(p.name))}" target="_blank" rel="noopener">Pedir pelo WhatsApp <svg><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>`).join("") + `
+    <article class="card custom reveal" data-cat="Sob encomenda">
+      <div class="card-media">${ART.mais}</div>
+      <div class="card-body">
+        <h3>Tem outra peça em mente?</h3>
+        <p>Gravamos em diversos outros materiais e objetos. Conte sua ideia e a gente avalia.</p>
+        <a class="card-link" href="${waLink("Olá! Vim pelo site da ZIPLASER e queria saber se vocês gravam em outro tipo de peça.")}" target="_blank" rel="noopener">Consultar <svg><use href="#i-arrow"/></svg></a>
       </div>
     </article>`;
-  }).join("");
 
   // Filtros
-  const cats = ["Todos", ...new Set(PRODUCTS.map(p => p.cat))];
+  const groups = [...new Set(CATALOG.map(p => p.group))];
   const filters = document.getElementById("filters");
-  filters.innerHTML = cats.map((c,i) => `<button class="chip${i===0?" active":""}" data-cat="${c}">${c}</button>`).join("");
+  const countOf = g => g==="Todos" ? CATALOG.length : CATALOG.filter(p=>p.group===g).length;
+  filters.innerHTML = ["Todos",...groups].map((c,i) => `<button class="chip${i===0?" active":""}" data-cat="${c}">${c} <small>${countOf(c)}</small></button>`).join("");
   filters.addEventListener("click", e => {
     const b = e.target.closest(".chip"); if(!b) return;
     filters.querySelectorAll(".chip").forEach(x => x.classList.toggle("active", x===b));
     grid.querySelectorAll(".card").forEach(card => {
-      card.classList.toggle("hide", b.dataset.cat !== "Todos" && card.dataset.cat !== b.dataset.cat);
+      const show = b.dataset.cat==="Todos" || card.dataset.cat===b.dataset.cat || card.classList.contains("custom");
+      card.classList.toggle("hide", !show);
     });
   });
+
+  // Galeria (modal)
+  const gal = document.getElementById("gallery");
+  let gp=null, gi=1, lastFocus=null;
+  function galShow(i){
+    gi = (i-1+gp.n)%gp.n+1;
+    const img = gal.querySelector(".gal-main img");
+    img.classList.add("swap");
+    const nimg = new Image(); nimg.src = foto(gp.id,gi,0);
+    nimg.onload = () => { img.src = nimg.src; img.classList.remove("swap"); };
+    img.alt = `${gp.name}: foto ${gi} de ${gp.n}`;
+    gal.querySelector(".gal-pos").textContent = `${gi} / ${gp.n}`;
+    gal.querySelectorAll(".gal-thumbs button").forEach((t,j)=>t.classList.toggle("on", j+1===gi));
+    const on = gal.querySelector(".gal-thumbs .on"); if(on) on.scrollIntoView({block:"nearest",inline:"center"});
+  }
+  function galOpen(k){
+    gp = CATALOG[k]; lastFocus = document.activeElement;
+    gal.querySelector(".gal-group").textContent = gp.group;
+    gal.querySelector("h3").textContent = gp.name;
+    gal.querySelector(".gal-desc").textContent = gp.desc;
+    gal.querySelector(".gal-wa").href = waLink(msgFor(gp.name));
+    gal.querySelector(".gal-thumbs").innerHTML = Array.from({length:gp.n},(_,j)=>`<button aria-label="Foto ${j+1}"><img src="${foto(gp.id,j+1,1)}" alt=""></button>`).join("");
+    gal.querySelector(".gal-thumbs").style.display = gp.n>1 ? "" : "none";
+    gal.querySelectorAll(".gal-nav").forEach(b=>b.style.display = gp.n>1 ? "" : "none");
+    gal.querySelector(".gal-main img").src = foto(gp.id,1,1);
+    gal.hidden = false; document.body.classList.add("noscroll");
+    requestAnimationFrame(()=>gal.classList.add("open"));
+    galShow(1); gal.querySelector(".gal-close").focus();
+  }
+  function galClose(){
+    gal.classList.remove("open"); document.body.classList.remove("noscroll");
+    setTimeout(()=>{ gal.hidden = true; }, 250);
+    if(lastFocus) lastFocus.focus();
+  }
+  grid.addEventListener("click", e => { const m = e.target.closest(".card-media"); const c = e.target.closest(".card"); if(m && c && c.dataset.k) galOpen(+c.dataset.k); });
+  gal.addEventListener("click", e => {
+    if(e.target===gal || e.target.closest(".gal-close")) return galClose();
+    if(e.target.closest(".gal-prev")) return galShow(gi-1);
+    if(e.target.closest(".gal-next")) return galShow(gi+1);
+    const t = e.target.closest(".gal-thumbs button"); if(t) galShow([...t.parentNode.children].indexOf(t)+1);
+  });
+  document.addEventListener("keydown", e => {
+    if(gal.hidden) return;
+    if(e.key==="Escape") galClose(); else if(e.key==="ArrowLeft") galShow(gi-1); else if(e.key==="ArrowRight") galShow(gi+1);
+  });
+  let gx=null;
+  gal.querySelector(".gal-main").addEventListener("touchstart",e=>{gx=e.touches[0].clientX;},{passive:true});
+  gal.querySelector(".gal-main").addEventListener("touchend",e=>{ if(gx===null) return; const d=e.changedTouches[0].clientX-gx; if(Math.abs(d)>40) galShow(gi+(d<0?1:-1)); gx=null; });
 
   // Links de WhatsApp
   document.querySelectorAll("a.wa").forEach(a => {
