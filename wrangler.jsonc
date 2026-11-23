@@ -1,0 +1,10 @@
+{
+  // Configuração do Cloudflare (Workers com arquivos estáticos).
+  // O site é só HTML + imagens, sem etapa de build.
+  "name": "ziplaser",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  }
+}
